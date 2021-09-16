@@ -1,30 +1,28 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-09-15 19:16:13
+ * @LastEditTime: 2021-09-16 01:45:22
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue3.0_music\src\App.vue
+-->
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <m-header></m-header>
+  <tab></tab>
+  <router-view></router-view>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Header from '@/components/header/header.vue';
+import Tab from '@/components/tab/tab';
 
-#nav {
-  padding: 30px;
+export default {
+  components: {
+    MHeader: Header,
+    Tab,
+  },
+};
+</script>
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+<style lang="scss" scoped>
 </style>
