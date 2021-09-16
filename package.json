@@ -8,11 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@better-scroll/slide": "^2.4.2",
     "axios": "^0.21.4",
+    "cookie-parser": "^1.4.5",
     "core-js": "^3.6.5",
+    "js-base64": "^3.7.1",
+    "pinyin": "^2.10.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "xsrf": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

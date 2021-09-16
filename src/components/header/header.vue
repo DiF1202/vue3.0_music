@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-15 20:25:53
- * @LastEditTime: 2021-09-16 12:05:08
- * @LastEditors: your name
+ * @LastEditTime: 2021-09-16 21:24:34
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\header\header.vue
 -->
@@ -35,7 +35,8 @@ export default {
     width: 30px;
     height: 32px;
     margin-right: 9px;
-    @include bg-image('logo');
+    // @include bg-image('logo');
+    background-color: yellow;
     background-size: 30px 32px;
   }
   .text {
