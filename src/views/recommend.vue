@@ -1,7 +1,11 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
+<<<<<<< HEAD
  * @LastEditTime: 2021-09-20 01:04:41
+=======
+ * @LastEditTime: 2021-09-20 01:36:42
+>>>>>>> singer
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -67,7 +71,7 @@ export default {
     //获取歌单数据
     const playList = await getPlayList(15);
     this.playlists = playList.playlists;
-    console.log(this.playlists);
+    // console.log(this.playlists);
   },
 };
 </script>
