@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-09-19 03:45:56
+ * @LastEditTime: 2021-09-20 01:36:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     loading() {
-      return !this.sliders.length && !this.albums.length;
+      return !this.sliders.length && !this.playlists.length;
     },
   },
   async created() {
@@ -67,7 +67,7 @@ export default {
     //获取歌单数据
     const playList = await getPlayList(15);
     this.playlists = playList.playlists;
-    console.log(this.playlists);
+    // console.log(this.playlists);
   },
 };
 </script>
