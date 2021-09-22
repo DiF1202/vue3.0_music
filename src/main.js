@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-09-18 13:54:05
+ * @LastEditTime: 2021-09-22 10:52:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\main.js
@@ -13,6 +13,7 @@ import store from './store'
 import axios from 'axios'
 import lazyPlugin from 'vue3-lazy'
 import loadingDirective from './components/base/loading/directive'
+import 'default-passive-events'
 //引入全局样式文件
 import '@/assets/scss/index.scss'
 // import '@/assets/scss/mixin.scss'
