@@ -10,9 +10,12 @@
   <div class="header">
     <span class="logo"></span>
     <h1 class="text">Di迪的网抑云</h1>
-    <router-link class="mine" to="/user">
+    <!-- <router-link class="mine" to="/user">
       <i class="icon-mine"></i>
-    </router-link>
+    </router-link> -->
+    <div class="mine">
+      <i class="icon-mine"></i>
+    </div>
   </div>
 </template>
 

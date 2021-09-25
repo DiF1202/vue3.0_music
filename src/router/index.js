@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-09-16 01:47:25
+ * @LastEditTime: 2021-09-23 01:06:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\router\index.js
@@ -11,7 +11,7 @@ import Recommend from '@/views/recommend'
 import Singer from '@/views/singer'
 import TopList from '@/views/top-list'
 import Search from '@/views/search'
-
+import SingerDetail from '@/views/SingerDetail'
 
 const routes = [
   {
@@ -24,7 +24,13 @@ const routes = [
   },
   {
     path: '/singer',
-    component: Singer
+    component: Singer,
+    children: [
+      {
+        path: ':id',
+        component: SingerDetail
+      }
+    ]
   },
   {
     path: '/top-list',

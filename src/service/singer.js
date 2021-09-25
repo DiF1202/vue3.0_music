@@ -1,18 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2021-09-20 01:31:18
- * @LastEditTime: 2021-09-22 12:03:24
+ * @LastEditTime: 2021-09-24 23:55:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\singer.js
  */
 import { get } from './base.js'
+
+//获取歌手列表
 export function getSingerList(params) {
     return get('/artist/list', {
         limit: params
     })
 }
 
+//整理数据
 export function formatSingerList(singerList) {
     const HOT_NAME = '热';
     let pinyin = require('pinyin');
@@ -24,7 +27,7 @@ export function formatSingerList(singerList) {
                 id: item.id,
                 name: item.name,
                 pic: item.picUrl
-                    .replace(/\.webp$/, '.jpg')
+                    // .replace(/\.webp$/, '.jpg')
                     .replace('150x150', '800x800'),
             };
         });
@@ -78,5 +81,12 @@ export function formatSingerList(singerList) {
     });
 
     return hot.concat(letter)
+}
+
+//获取歌手详情信息
+export function getSingerDetail(singer) {
+    return get('/artist/detail', {
+        id: singer.id
+    })
 }
 

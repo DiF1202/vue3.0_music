@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
- * @Date: 2021-09-16 20:01:41
- * @LastEditTime: 2021-09-16 21:16:45
+ * @Date: 2021-09-16 22:22:42
+ * @LastEditTime: 2021-09-24 23:55:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\base\slider\slider.vue
@@ -30,7 +30,6 @@
 <script>
 import { ref } from 'vue';
 import useSlider from './use-slider';
-
 export default {
   name: 'slider',
   props: {
@@ -44,7 +43,6 @@ export default {
   setup() {
     const rootRef = ref(null);
     const { currentPageIndex } = useSlider(rootRef);
-
     return {
       rootRef,
       currentPageIndex,
