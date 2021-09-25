@@ -1,14 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 00:38:27
- * @LastEditTime: 2021-09-24 21:24:24
+ * @LastEditTime: 2021-09-25 22:46:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\singer-detail.vue
 -->
 <template>
   <div class="singer-detail">
-    <music-list :songs="songs" :title="title" :pic="pic"> </music-list>
+    <music-list :songs="songs" :title="title" :pic="pic" :loading="loading">
+    </music-list>
   </div>
 </template>
 
@@ -17,6 +18,8 @@
 import { getSingerSongs } from '@/service/song.js';
 import { processSongs } from '@/service/song.js';
 import MusicList from '../components/music-list/music-list.vue';
+import storage from 'good-storage';
+import { SINGER_KEY } from '@/assets/js/constant';
 
 export default {
   name: 'singer-detail',
@@ -27,14 +30,31 @@ export default {
   data() {
     return {
       songs: [],
+      loading: true,
     };
   },
   computed: {
+    computedSinger() {
+      //ret是返回值变量
+      let ret = null;
+      const singer = this.singer;
+      if (singer) {
+        ret = singer;
+      } else {
+        const catchSinger = storage.session.get(SINGER_KEY);
+        if (catchSinger && catchSinger.id == this.$route.params.id) {
+          ret = catchSinger;
+        }
+      }
+      return ret;
+    },
     title() {
-      return this.singer.name;
+      const singer = this.computedSinger;
+      return singer.name;
     },
     pic() {
-      return this.singer.pic;
+      const singer = this.computedSinger;
+      return singer.pic;
     },
   },
   async created() {
@@ -42,12 +62,25 @@ export default {
     // const detailMessage = await getSingerDetail(this.singer);
     // console.log(this.singer.name);
     //歌手 所有歌曲
-    const data_songs = await getSingerSongs(this.singer);
+
+    //改动在这里
+    // const data_songs = await getSingerSongs(this.singer);
+    if (!this.computedSinger) {
+      const path = this.$route.matched[0].path;
+      this.$router.push({
+        path,
+      });
+      return;
+    }
+
+    const data_songs = await getSingerSongs(this.computedSinger);
     //获取 每个歌手能播放的歌
 
     this.songs = await processSongs(data_songs.songs);
+    this.loading = false;
 
-    console.log(this.songs);
+    // console.log(this.songs);
+    // console.log(this.singer.pic);
   },
 };
 </script>

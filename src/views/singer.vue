@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-09-23 00:55:47
+ * @LastEditTime: 2021-09-25 22:40:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -17,6 +17,8 @@
 import { getSingerList } from '@/service/singer';
 import { formatSingerList } from '@/service/singer';
 import IndexList from '../components/base/index-list/index-list.vue';
+import storage from 'good-storage';
+import { SINGER_KEY } from '@/assets/js/constant';
 
 export default {
   name: 'singer',
@@ -36,9 +38,13 @@ export default {
   methods: {
     selectSinger(singer) {
       this.selectedSinger = singer;
+      this.catchSinger(singer);
       this.$router.push({
         path: `/singer/${singer.id}`,
       });
+    },
+    catchSinger(singer) {
+      storage.session.set(SINGER_KEY, singer);
     },
   },
 };

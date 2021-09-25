@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 23:21:50
- * @LastEditTime: 2021-09-24 20:37:52
+ * @LastEditTime: 2021-09-25 22:54:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\music-list\music-list.vue
@@ -9,17 +9,30 @@
 <template>
   <div class="music-list">
     <!-- 返回按钮 -->
-    <div class="back">
+    <div class="back" @click="goBack">
       <i class="icon-back"></i>
     </div>
     <!-- 标题名字 -->
     <h1 class="title">{{ title }}</h1>
     <!-- 详情页的背景 -->
     <div class="bg-image" :style="bgImageStyle" ref="bgImage">
+      <div class="play-btn-wrapper">
+        <div v-show="songs.length > 0" class="play-btn" @click="random">
+          <i class="icon-play"></i>
+          <span class="text">随机播放全部</span>
+        </div>
+      </div>
       <!-- 半透明保护层 -->
-      <div class="filter"></div>
+      <div class="filter" :style="filterStyle"></div>
     </div>
-    <scroll class="list">
+
+    <scroll
+      class="list"
+      :style="scrollStyle"
+      v-loading="loading"
+      :probeType="3"
+      @scroll="onScroll"
+    >
       <div class="song-list-wrapper">
         <!-- 所有歌曲可以抽象封装成一个组件 -->
         <song-list :songs="songs" :title="title"> </song-list>
@@ -31,6 +44,9 @@
 <script>
 import scroll from '../base/scroll/scroll.vue';
 import SongList from '../base/song-list/song-list.vue';
+
+const RESERVED_HEIGHT = 40;
+
 export default {
   name: 'music-list',
   components: { scroll, SongList },
@@ -43,16 +59,83 @@ export default {
     },
     title: String,
     pic: String,
+    loading: Boolean,
+  },
+  data() {
+    return {
+      imageHeight: 0,
+      scrollY: 0,
+      maxTranslateY: 0,
+    };
   },
   computed: {
     bgImageStyle() {
+      const scrollY = this.scrollY;
+      let zIndex = 0;
+      let paddingTop = '70%';
+      let height = 0;
+      let translateZ = 0;
+
+      if (scrollY > this.maxTranslateY) {
+        zIndex = 10;
+        paddingTop = 0;
+        height = `${RESERVED_HEIGHT}px`;
+        translateZ = 1;
+      }
+
+      let scale = 1;
+      if (scrollY < 0) {
+        scale = 1 + Math.abs(scrollY / this.imageHeight);
+      }
+
       return {
+        zIndex,
+        paddingTop,
+        height,
         backgroundImage: `url(${this.pic})`,
+        transform: `scale(${scale})translateZ(${translateZ}px)`,
       };
+    },
+    scrollStyle() {
+      return {
+        top: `${this.imageHeight}px`,
+      };
+    },
+    filterStyle() {
+      let blur = 0;
+      const scrollY = this.scrollY;
+      const imageHeight = this.imageHeight;
+      // scrollY>0是往上推的一个过程
+      if (scrollY >= 0) {
+        blur =
+          Math.min(this.maxTranslateY / imageHeight, scrollY / imageHeight) *
+          20;
+      }
+      4;
+      return {
+        backdropFilter: `blur(${blur}px)`,
+      };
+    },
+  },
+  mounted() {
+    this.imageHeight = this.$refs.bgImage.clientHeight;
+    this.maxTranslateY = this.imageHeight - RESERVED_HEIGHT;
+  },
+  methods: {
+    goBack() {
+      this.$router.back();
+      // const path = this.$route.matched[0].path;
+      // this.$router.push({
+      //   path,
+      // });
+    },
+    onScroll(pos) {
+      this.scrollY = -pos.y;
     },
   },
 };
 </script>
+
 
 <style lang="scss" scoped>
 .music-list {
@@ -87,9 +170,37 @@ export default {
   .bg-image {
     position: relative;
     width: 100%;
+    height: 40%;
     transform-origin: top;
     background-size: cover;
-    // height: 50%;
+    .play-btn-wrapper {
+      position: absolute;
+      bottom: 20px;
+      z-index: 10;
+      width: 100%;
+      .play-btn {
+        box-sizing: border-box;
+        width: 135px;
+        padding: 7px 0;
+        margin: 0 auto;
+        text-align: center;
+        border: 1px solid $color-theme;
+        color: $color-theme;
+        border-radius: 100px;
+        font-size: 0;
+      }
+      .icon-play {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 6px;
+        font-size: $font-size-medium-x;
+      }
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: $font-size-small;
+      }
+    }
     .filter {
       position: absolute;
       top: 0;
