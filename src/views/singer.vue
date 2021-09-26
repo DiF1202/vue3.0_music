@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-09-25 22:40:46
+ * @LastEditTime: 2021-09-26 16:28:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -9,7 +9,12 @@
 <template>
   <div class="singer" v-loading="!singers.length">
     <index-list :data="singers" @select="selectSinger"></index-list>
-    <router-view :singer="selectedSinger"></router-view>
+    <!-- <router-view :singer="selectedSinger"></router-view> -->
+    <router-view v-slot="{ Component }">
+      <transition appear name="slide">
+        <component :is="Component" :data="selectedSinger" />
+      </transition>
+    </router-view>
   </div>
 </template>
 

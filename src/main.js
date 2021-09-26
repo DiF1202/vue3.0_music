@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-09-22 10:52:34
+ * @LastEditTime: 2021-09-26 16:48:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\main.js
@@ -13,13 +13,12 @@ import store from './store'
 import axios from 'axios'
 import lazyPlugin from 'vue3-lazy'
 import loadingDirective from './components/base/loading/directive'
+import noResultDirective from '@/components/base/no-result/directive'
 import 'default-passive-events'
-//引入全局样式文件
 import '@/assets/scss/index.scss'
-// import '@/assets/scss/mixin.scss'
-// import '@/assets/scss/variable.scss'
+
 
 axios.defaults.baseURL = 'http://localhost:3000'
 createApp(App).use(store).use(router).use(lazyPlugin, {
     loading: require('@/assets/images/load.gif')
-}).directive('loading', loadingDirective).mount('#app')
+}).directive('loading', loadingDirective).directive('no-result', noResultDirective).mount('#app')
