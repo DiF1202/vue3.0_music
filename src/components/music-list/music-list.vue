@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 23:21:50
- * @LastEditTime: 2021-09-26 16:59:05
+ * @LastEditTime: 2021-09-29 15:42:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\music-list\music-list.vue
@@ -16,7 +16,7 @@
     <h1 class="title">{{ title }}</h1>
     <!-- 详情页的背景 -->
     <div class="bg-image" :style="bgImageStyle" ref="bgImage">
-      <div class="play-btn-wrapper">
+      <div class="play-btn-wrapper" :style="playBtnStyle">
         <div v-show="songs.length > 0" class="play-btn" @click="random">
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
@@ -36,7 +36,8 @@
     >
       <div class="song-list-wrapper">
         <!-- 所有歌曲可以抽象封装成一个组件 -->
-        <song-list :songs="songs" :title="title"> </song-list>
+        <song-list :songs="songs" :title="title" @select="selectItem">
+        </song-list>
       </div>
     </scroll>
   </div>
@@ -45,7 +46,7 @@
 <script>
 import scroll from '../base/scroll/scroll.vue';
 import SongList from '../base/song-list/song-list.vue';
-
+import { mapActions } from 'vuex';
 const RESERVED_HEIGHT = 40;
 
 export default {
@@ -123,6 +124,17 @@ export default {
         backdropFilter: `blur(${blur}px)`,
       };
     },
+    //动态属性 拉上去就隐藏
+    playBtnStyle() {
+      let display = '';
+      //这个判断就是滚动在上方
+      if (this.scrollY >= this.maxTranslateY) {
+        display = 'none';
+      }
+      return {
+        display,
+      };
+    },
   },
   mounted() {
     this.imageHeight = this.$refs.bgImage.clientHeight;
@@ -138,6 +150,18 @@ export default {
     },
     onScroll(pos) {
       this.scrollY = -pos.y;
+    },
+    //vuex中的语法糖 mapActions
+    ...mapActions(['selectPlay', 'randomPlay']),
+    selectItem({ song, index }) {
+      this.selectPlay({
+        list: this.songs,
+        index,
+      });
+    },
+    //随机播放
+    random() {
+      this.randomPlay(this.songs);
     },
   },
 };

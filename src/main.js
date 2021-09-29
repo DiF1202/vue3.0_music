@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-09-26 16:48:52
+ * @LastEditTime: 2021-09-29 01:57:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\main.js
@@ -16,7 +16,6 @@ import loadingDirective from './components/base/loading/directive'
 import noResultDirective from '@/components/base/no-result/directive'
 import 'default-passive-events'
 import '@/assets/scss/index.scss'
-
 
 axios.defaults.baseURL = 'http://localhost:3000'
 createApp(App).use(store).use(router).use(lazyPlugin, {

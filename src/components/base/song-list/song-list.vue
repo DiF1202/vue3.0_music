@@ -1,14 +1,19 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 18:28:05
- * @LastEditTime: 2021-09-24 20:15:05
+ * @LastEditTime: 2021-09-29 14:30:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\base\song-list\song-list.vue
 -->
 <template>
   <ul class="song-list">
-    <li class="item" v-for="song in songs" :key="song.id">
+    <li
+      class="item"
+      v-for="(song, index) in songs"
+      :key="song.id"
+      @click="selectItem(song, index)"
+    >
       <div class="rank"></div>
       <div class="content">
         <h2 class="name">{{ song.name }}</h2>
@@ -30,6 +35,12 @@ export default {
     },
     title: {
       type: String,
+    },
+  },
+  emits: ['select'],
+  methods: {
+    selectItem(song, index) {
+      this.$emit('select', { song, index });
     },
   },
 };
