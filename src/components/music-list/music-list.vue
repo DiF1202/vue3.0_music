@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 23:21:50
- * @LastEditTime: 2021-09-29 15:42:05
+ * @LastEditTime: 2021-09-29 22:09:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\music-list\music-list.vue
@@ -75,9 +75,15 @@ export default {
     };
   },
   computed: {
+    //清晰图片
+    clearImage() {
+      return this.pic.replace(`?param=100y100`, '');
+    },
+
     noResult() {
       return !this.loading && !this.songs.length;
     },
+
     bgImageStyle() {
       const scrollY = this.scrollY;
       let zIndex = 0;
@@ -101,7 +107,7 @@ export default {
         zIndex,
         paddingTop,
         height,
-        backgroundImage: `url(${this.pic})`,
+        backgroundImage: `url(${this.clearImage})`,
         transform: `scale(${scale})translateZ(${translateZ}px)`,
       };
     },

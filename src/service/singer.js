@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-20 01:31:18
- * @LastEditTime: 2021-09-24 23:55:38
+ * @LastEditTime: 2021-09-29 21:48:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\singer.js
@@ -26,9 +26,8 @@ export function formatSingerList(singerList) {
             return {
                 id: item.id,
                 name: item.name,
-                pic: item.picUrl
-                    // .replace(/\.webp$/, '.jpg')
-                    .replace('150x150', '800x800'),
+                pic: (item.picUrl) + '?param=100y100'
+
             };
         });
     }

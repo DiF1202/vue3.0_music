@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 00:38:27
- * @LastEditTime: 2021-09-25 22:46:49
+ * @LastEditTime: 2021-09-30 11:03:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\singer-detail.vue
@@ -17,6 +17,7 @@
 // import { getSingerDetail } from '@/service/singer';
 import { getSingerSongs } from '@/service/song.js';
 import { processSongs } from '@/service/song.js';
+import { getUrls } from '@/service/song.js';
 import MusicList from '../components/music-list/music-list.vue';
 import storage from 'good-storage';
 import { SINGER_KEY } from '@/assets/js/constant';
@@ -58,11 +59,6 @@ export default {
     },
   },
   async created() {
-    //歌手详情信息
-    // const detailMessage = await getSingerDetail(this.singer);
-    // console.log(this.singer.name);
-    //歌手 所有歌曲
-
     //改动在这里
     // const data_songs = await getSingerSongs(this.singer);
     if (!this.computedSinger) {
@@ -76,11 +72,10 @@ export default {
     const data_songs = await getSingerSongs(this.computedSinger);
     //获取 每个歌手能播放的歌
 
+    this.songs = data_songs.songs;
     this.songs = await processSongs(data_songs.songs);
+    this.songs = await getUrls(this.songs);
     this.loading = false;
-
-    // console.log(this.songs);
-    // console.log(this.singer.pic);
   },
 };
 </script>

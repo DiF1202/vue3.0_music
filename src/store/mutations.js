@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:45:55
- * @LastEditTime: 2021-09-29 13:54:52
+ * @LastEditTime: 2021-09-30 15:12:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\mutations.js
@@ -25,7 +25,7 @@ const mutations = {
     },
     //设置当前播放索引
     setCurrentIndex(state, index) {
-        state.setCurrentIndex = index
+        state.currentIndex = index
     },
     //设置全屏还是收缩
     setFullScreen(state, fullScreen) {
