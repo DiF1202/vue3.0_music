@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:56:17
- * @LastEditTime: 2021-09-30 15:13:11
+ * @LastEditTime: 2021-10-01 14:52:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\actions.js
@@ -12,7 +12,7 @@ import { shuffle } from "../assets/js/util"
 //当在列表中选择一首歌曲进行播放的时候
 export function selectPlay({ commit }, { list, index }) {
     //提交播放模式
-    commit('setPlayMode', PLAY_MODE.sqeuenece)
+    commit('setPlayMode', PLAY_MODE.sequence)
     //提交顺序播放列表
     commit('setSequenceList', list)
     //提交 播放状态

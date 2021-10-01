@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-09-30 17:02:15
+ * @LastEditTime: 2021-10-01 14:59:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -25,15 +25,15 @@
       <div class="bottom">
         <div class="operators">
           <div class="icon i-left">
-            <i class="icon-sequence"></i>
+            <i @click="changeMode" :class="modeIcon"></i>
           </div>
-          <div class="icon i-left">
+          <div class="icon i-left" :class="disableCls">
             <i class="icon-prev" @click="prev"></i>
           </div>
-          <div class="icon i-center">
+          <div class="icon i-center" :class="disableCls">
             <i :class="playIcon" @click="togglePlay"></i>
           </div>
-          <div class="icon i-right">
+          <div class="icon i-right" :class="disableCls">
             <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon i-right">
@@ -42,12 +42,18 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause" @canplay="ready"></audio>
+    <audio
+      ref="audioRef"
+      @pause="pause"
+      @canplay="ready"
+      @error="error"
+    ></audio>
   </div>
 </template>
 <script>
 import { useStore } from 'vuex';
 import { computed, watch, ref } from 'vue';
+import useMode from './use-mode';
 export default {
   name: 'player',
   setup() {
@@ -63,10 +69,17 @@ export default {
     //获取播放状态
     const playing = computed(() => store.state.playing);
 
+    //引入hook函数
+    const { modeIcon } = useMode();
+
     //computed
     //根据不同播放状态求得不同icon
     const playIcon = computed(() => {
       return playing.value ? 'icon-pause' : 'icon-play';
+    });
+
+    const disableCls = computed(() => {
+      return songReady.value ? '' : 'disable';
     });
 
     //watch
@@ -95,6 +108,9 @@ export default {
     }
 
     function togglePlay() {
+      if (!songReady.value) {
+        return;
+      }
       store.commit('setPlayingState', !playing.value);
     }
 
@@ -152,11 +168,15 @@ export default {
       store.commit('setPlayingState', true);
     }
 
-    //
+    //检测歌曲链接是否缓存好
     function ready() {
       if (songReady.value) {
         return;
       }
+      songReady.value = true;
+    }
+    //如果出错的情况，你要把songready设置为true 才能进行下一次切换
+    function error() {
       songReady.value = true;
     }
     //return
@@ -171,6 +191,10 @@ export default {
       prev,
       next,
       ready,
+      disableCls,
+      error,
+      //钩子函数mode
+      modeIcon,
     };
   },
 };

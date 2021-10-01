@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 02:19:00
- * @LastEditTime: 2021-09-30 15:12:38
+ * @LastEditTime: 2021-10-01 15:09:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\state.js
@@ -16,7 +16,7 @@ const state = {
     //播放状态
     playing: false,
     //播放模式
-    playMode: PLAY_MODE.sqeuenece,
+    playMode: PLAY_MODE.sequence,
     //播放那一首歌
     currentIndex: 0,
     //全屏还是收缩
