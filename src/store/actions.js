@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:56:17
- * @LastEditTime: 2021-10-01 14:52:55
+ * @LastEditTime: 2021-10-02 13:48:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\actions.js
@@ -39,4 +39,20 @@ export function randomPlay({ commit }, list) {
     commit('setPlayList', shuffle(list))
     //提交播放索引
     commit('setCurrentIndex', 0)
+}
+
+//改变播放模式
+export function changeMode({ commit, state, getters }, mode) {
+    const currentId = getters.currentSong.id
+    if (mode === PLAY_MODE.random) {
+        commit('setPlayList', shuffle(state.sequenceList))
+    } else {
+        commit('setPlayList', state.sequenceList)
+    }
+    const index = state.playList.findIndex((song) => {
+        return song.id === currentId
+    })
+
+    commit('setCurrentIndex', index)
+    commit('setPlayMode', mode)
 }

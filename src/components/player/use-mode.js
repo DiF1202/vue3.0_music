@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-30 20:09:24
- * @LastEditTime: 2021-10-01 21:19:29
+ * @LastEditTime: 2021-10-02 13:54:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-mode.js
@@ -30,10 +30,11 @@ export default function useMode() {
 
     function changeMode() {
         const mode = (playMode.value + 1) % 3
+        //写在actions里面的changeMode
         store.dispatch('changeMode', mode)
     }
-
     return {
-        modeIcon
+        modeIcon,
+        changeMode
     }
 }

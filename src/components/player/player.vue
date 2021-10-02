@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-01 14:59:05
+ * @LastEditTime: 2021-10-02 16:18:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -37,7 +37,10 @@
             <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-not-favorite"></i>
+            <i
+              :class="getFavoriteIcon(currentSong)"
+              @click="toggleFavorite(currentSong)"
+            ></i>
           </div>
         </div>
       </div>
@@ -54,6 +57,7 @@
 import { useStore } from 'vuex';
 import { computed, watch, ref } from 'vue';
 import useMode from './use-mode';
+import useFavorite from './use-favorite';
 export default {
   name: 'player',
   setup() {
@@ -70,7 +74,8 @@ export default {
     const playing = computed(() => store.state.playing);
 
     //引入hook函数
-    const { modeIcon } = useMode();
+    const { modeIcon, changeMode } = useMode();
+    const { getFavoriteIcon, toggleFavorite } = useFavorite();
 
     //computed
     //根据不同播放状态求得不同icon
@@ -195,6 +200,10 @@ export default {
       error,
       //钩子函数mode
       modeIcon,
+      changeMode,
+      //狗子函数favorite
+      getFavoriteIcon,
+      toggleFavorite,
     };
   },
 };
