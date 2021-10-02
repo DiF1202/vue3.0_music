@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 23:21:50
- * @LastEditTime: 2021-09-29 22:09:25
+ * @LastEditTime: 2021-10-03 02:01:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\music-list\music-list.vue
@@ -36,7 +36,12 @@
     >
       <div class="song-list-wrapper">
         <!-- 所有歌曲可以抽象封装成一个组件 -->
-        <song-list :songs="songs" :title="title" @select="selectItem">
+        <song-list
+          :songs="songs"
+          :title="title"
+          @select="selectItem"
+          v-show="!loading"
+        >
         </song-list>
       </div>
     </scroll>

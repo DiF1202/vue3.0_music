@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-02 16:18:39
+ * @LastEditTime: 2021-10-03 01:19:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -22,7 +22,30 @@
           {{ currentSong?.ar[1]?.name }}
         </h2>
       </div>
+      <div class="middle">
+        <div class="middle-l">
+          <div class="cd-wrapper">
+            <div class="cd">
+              <img class="image" :src="currentSong.song_pic" />
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bottom">
+        <!-- 进度条 -->
+        <div class="progress-wrapper">
+          <span class="time time-l">{{ formatTime(currentTime) }}</span>
+          <div class="progress-bar-wrapper">
+            <progress-bar
+              ref="barRef"
+              :progress="progress"
+              @progress-changing="onProgressChanging"
+              @progress-changed="onProgressChanged"
+            ></progress-bar>
+          </div>
+          <span class="time time-r">{{ formatTime(duration) }}</span>
+        </div>
+        <!-- 五个按钮 -->
         <div class="operators">
           <div class="icon i-left">
             <i @click="changeMode" :class="modeIcon"></i>
@@ -50,6 +73,8 @@
       @pause="pause"
       @canplay="ready"
       @error="error"
+      @timeupdate="updateTime"
+      @ended="end"
     ></audio>
   </div>
 </template>
@@ -58,18 +83,29 @@ import { useStore } from 'vuex';
 import { computed, watch, ref } from 'vue';
 import useMode from './use-mode';
 import useFavorite from './use-favorite';
+import ProgressBar from './progress-bar.vue';
+import { formatTime } from '@/assets/js/util';
+import { PLAY_MODE } from '@/assets/js/constant';
 export default {
   name: 'player',
+  components: {
+    ProgressBar,
+  },
+
   setup() {
     //data
     const audioRef = ref(null);
     const songReady = ref(false);
+    const currentTime = ref(0); //当前播放时长
+    const duration = ref(0);
+    let progressChanging = false;
     //vuex
     const store = useStore();
     const fullScreen = computed(() => store.state.fullScreen);
     const currentSong = computed(() => store.getters.currentSong);
     const currentIndex = computed(() => store.state.currentIndex);
     const playList = computed(() => store.state.playList);
+    const playMode = computed(() => store.state.playMode);
     //获取播放状态
     const playing = computed(() => store.state.playing);
 
@@ -83,6 +119,10 @@ export default {
       return playing.value ? 'icon-pause' : 'icon-play';
     });
 
+    const progress = computed(() => {
+      return currentTime.value / duration.value;
+    });
+
     const disableCls = computed(() => {
       return songReady.value ? '' : 'disable';
     });
@@ -92,6 +132,7 @@ export default {
       if (!newSong.id || !newSong.songurl) {
         return;
       }
+      currentTime.value = 0;
       songReady.value = false;
       const audioEl = audioRef.value;
       audioEl.src = newSong.songurl;
@@ -175,6 +216,8 @@ export default {
 
     //检测歌曲链接是否缓存好
     function ready() {
+      duration.value = audioRef.value.duration;
+      console.log(duration.value);
       if (songReady.value) {
         return;
       }
@@ -184,11 +227,44 @@ export default {
     function error() {
       songReady.value = true;
     }
+
+    function updateTime(e) {
+      if (!progressChanging) {
+        currentTime.value = e.target.currentTime;
+      }
+    }
+
+    function onProgressChanging(progress) {
+      progressChanging = true;
+      currentTime.value = duration.value * progress;
+    }
+
+    function onProgressChanged(progress) {
+      progressChanging = false;
+      audioRef.value.currentTime = currentTime.value =
+        duration.value * progress;
+      if (!playing.value) {
+        store.commit('setPlayingState', true);
+      }
+    }
+
+    //结束后的函数
+    function end() {
+      currentTime.value = 0;
+      if (playMode.value === PLAY_MODE.loop) {
+        loop();
+      } else {
+        next();
+      }
+    }
     //return
     return {
+      progress,
       fullScreen,
+      currentTime,
       currentSong,
       audioRef,
+      duration,
       goBack,
       playIcon,
       togglePlay,
@@ -198,6 +274,11 @@ export default {
       ready,
       disableCls,
       error,
+      updateTime,
+      formatTime,
+      onProgressChanging,
+      onProgressChanged,
+      end,
       //钩子函数mode
       modeIcon,
       changeMode,

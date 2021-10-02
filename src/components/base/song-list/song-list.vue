@@ -1,26 +1,28 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 18:28:05
- * @LastEditTime: 2021-09-29 14:30:24
+ * @LastEditTime: 2021-10-03 02:01:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\base\song-list\song-list.vue
 -->
 <template>
-  <ul class="song-list">
-    <li
-      class="item"
-      v-for="(song, index) in songs"
-      :key="song.id"
-      @click="selectItem(song, index)"
-    >
-      <div class="rank"></div>
-      <div class="content">
-        <h2 class="name">{{ song.name }}</h2>
-        <p class="desc">{{ title }}--{{ song.al.name }}</p>
-      </div>
-    </li>
-  </ul>
+  <div>
+    <ul class="song-list">
+      <li
+        class="item"
+        v-for="(song, index) in songs"
+        :key="song.id"
+        @click="selectItem(song, index)"
+      >
+        <div class="rank"></div>
+        <div class="content">
+          <h2 class="name">{{ song.name }}</h2>
+          <p class="desc">{{ title }}--{{ song.al.name }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

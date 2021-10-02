@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 00:38:27
- * @LastEditTime: 2021-09-30 11:03:18
+ * @LastEditTime: 2021-10-03 01:37:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\singer-detail.vue

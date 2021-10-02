@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 18:45:07
- * @LastEditTime: 2021-09-30 10:23:01
+ * @LastEditTime: 2021-10-03 02:06:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\song.js
@@ -12,7 +12,7 @@ import { get } from './base.js'
 export function getSingerSongs(singer) {
     return get('/artist/songs', {
         id: singer.id,
-        limit: 30
+        limit: 25
     })
 }
 
@@ -27,7 +27,7 @@ export function processSongs(singerSongs) {
             get('/song/detail', { ids: item.id }).then((result) => {
                 resolve({
                     ...item,
-                    song_pic: result.songs[0].al.picUrl
+                    song_pic: `${result.songs[0].al.picUrl}?param=300y300`
                 })
             }, (error) => {
                 reject(error)
