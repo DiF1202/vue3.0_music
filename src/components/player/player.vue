@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-03 01:19:17
+ * @LastEditTime: 2021-10-03 13:46:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -25,8 +25,13 @@
       <div class="middle">
         <div class="middle-l">
           <div class="cd-wrapper">
-            <div class="cd">
-              <img class="image" :src="currentSong.song_pic" />
+            <div class="cd" ref="cdRef">
+              <img
+                ref="cdImageRef"
+                class="image"
+                :class="cdCls"
+                :src="currentSong.song_pic"
+              />
             </div>
           </div>
         </div>
@@ -86,6 +91,7 @@ import useFavorite from './use-favorite';
 import ProgressBar from './progress-bar.vue';
 import { formatTime } from '@/assets/js/util';
 import { PLAY_MODE } from '@/assets/js/constant';
+import useCd from './use-cd';
 export default {
   name: 'player',
   components: {
@@ -112,6 +118,7 @@ export default {
     //引入hook函数
     const { modeIcon, changeMode } = useMode();
     const { getFavoriteIcon, toggleFavorite } = useFavorite();
+    const { cdCls, cdRef, cdImageRef } = useCd();
 
     //computed
     //根据不同播放状态求得不同icon
@@ -279,12 +286,16 @@ export default {
       onProgressChanging,
       onProgressChanged,
       end,
-      //钩子函数mode
+      //mode
       modeIcon,
       changeMode,
-      //狗子函数favorite
+      //favorite
       getFavoriteIcon,
       toggleFavorite,
+      //cd
+      cdCls,
+      cdRef,
+      cdImageRef,
     };
   },
 };
@@ -382,7 +393,7 @@ export default {
               border: 10px solid rgba(255, 255, 255, 0.1);
             }
             .playing {
-              animation: rotate 20s linear infinite;
+              animation: rotate 25s linear infinite;
             }
           }
         }
