@@ -17,6 +17,7 @@
     "good-storage": "^1.1.1",
     "jian-pinyin": "^0.2.3",
     "js-base64": "^3.7.1",
+    "lyric-parser": "^1.0.1",
     "pinyin": "^2.10.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",

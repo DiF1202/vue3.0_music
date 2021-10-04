@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 18:45:07
- * @LastEditTime: 2021-10-03 02:06:19
+ * @LastEditTime: 2021-10-04 14:57:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\song.js
@@ -56,3 +56,29 @@ export function getUrls(singerSongs) {
     }))
 }
 
+//获取歌词
+const lyricMap = {}
+export function getLyric(song) {
+    //如果已经有歌词了就不请求了
+    if (song.lyric) {
+        return Promise.resolve(song.lyric)
+    }
+    const lyric = lyricMap[song.id]
+    //将每次请求到的歌词放lyricMap里面如果存在也不请求
+    if (lyric) {
+        return Promise.resolve(lyric)
+    }
+    //进行对歌词的请求封装
+    return get('/lyric', {
+        id: song.id,
+    }).then((result) => {
+        // const lyric = result.lrc.lyric ? result.lrc.lyric : '[00:00:00]该歌曲暂时无法获取歌词'
+        let lyric = null
+        if (result?.lrc?.lyric) {
+            lyric = result.lrc.lyric
+        } else {
+            lyric = '[00:00:00]该歌曲暂时无法获取歌词'
+        }
+        return lyric
+    })
+}

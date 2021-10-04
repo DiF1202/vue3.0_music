@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:45:55
- * @LastEditTime: 2021-10-02 14:10:38
+ * @LastEditTime: 2021-10-03 15:29:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\mutations.js
@@ -34,7 +34,16 @@ const mutations = {
     //设置喜欢歌曲的列表
     setFavoriteList(state, list) {
         state.favoriteList = list
-    }
+    },
+    //添加歌词
+    addSongLyric(state, { song, lyric }) {
+        state.sequenceList.map((item) => {
+            if (item.id == song.id) {
+                item.lyric = lyric
+            }
+            return item
+        })
+    },
 }
 
 export default mutations

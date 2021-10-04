@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-03 13:46:38
+ * @LastEditTime: 2021-10-04 15:07:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -19,6 +19,7 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">
           {{ currentSong.ar[0].name }}
+          <span v-if="currentSong?.ar[1]?.name">/</span>
           {{ currentSong?.ar[1]?.name }}
         </h2>
       </div>
@@ -34,7 +35,27 @@
               />
             </div>
           </div>
+          <div class="playing-lyric-wrapper">
+            <div class="playing-lyric">{{ playingLyric }}</div>
+          </div>
         </div>
+        <scroll class="middle-r" ref="lyricScrollRef">
+          <div class="lyric-wrapper">
+            <div v-if="currentLyric" ref="lyricListRef">
+              <p
+                class="text"
+                :class="{ current: currentLineNum === index }"
+                v-for="(line, index) in currentLyric.lines"
+                :key="line.num"
+              >
+                {{ line.txt }}
+              </p>
+            </div>
+            <div class="pure-music" v-show="pureMusicLyric">
+              <p>{{ pureMusicLyric }}</p>
+            </div>
+          </div>
+        </scroll>
       </div>
       <div class="bottom">
         <!-- 进度条 -->
@@ -92,10 +113,13 @@ import ProgressBar from './progress-bar.vue';
 import { formatTime } from '@/assets/js/util';
 import { PLAY_MODE } from '@/assets/js/constant';
 import useCd from './use-cd';
+import useLyric from './use-lyric';
+import Scroll from '@/components/base/scroll/scroll';
 export default {
   name: 'player',
   components: {
     ProgressBar,
+    Scroll,
   },
 
   setup() {
@@ -119,6 +143,19 @@ export default {
     const { modeIcon, changeMode } = useMode();
     const { getFavoriteIcon, toggleFavorite } = useFavorite();
     const { cdCls, cdRef, cdImageRef } = useCd();
+    const {
+      currentLyric,
+      currentLineNum,
+      lyricScrollRef,
+      lyricListRef,
+      playLyric,
+      stopLyric,
+      pureMusicLyric,
+      playingLyric,
+    } = useLyric({
+      songReady,
+      currentTime,
+    });
 
     //computed
     //根据不同播放状态求得不同icon
@@ -152,7 +189,13 @@ export default {
         return;
       }
       const audioEl = audioRef.value;
-      newPlaying ? audioEl.play() : audioEl.pause();
+      if (newPlaying) {
+        audioEl.play();
+        playLyric();
+      } else {
+        audioEl.pause();
+        stopLyric();
+      }
     });
 
     //function
@@ -223,12 +266,12 @@ export default {
 
     //检测歌曲链接是否缓存好
     function ready() {
-      duration.value = audioRef.value.duration;
-      console.log(duration.value);
       if (songReady.value) {
         return;
       }
       songReady.value = true;
+      playLyric();
+      duration.value = audioRef.value.duration;
     }
     //如果出错的情况，你要把songready设置为true 才能进行下一次切换
     function error() {
@@ -244,6 +287,8 @@ export default {
     function onProgressChanging(progress) {
       progressChanging = true;
       currentTime.value = duration.value * progress;
+      playLyric();
+      stopLyric();
     }
 
     function onProgressChanged(progress) {
@@ -253,6 +298,7 @@ export default {
       if (!playing.value) {
         store.commit('setPlayingState', true);
       }
+      playLyric();
     }
 
     //结束后的函数
@@ -296,6 +342,14 @@ export default {
       cdCls,
       cdRef,
       cdImageRef,
+      //lyric
+      currentLyric,
+      currentLineNum,
+      playLyric,
+      lyricScrollRef,
+      lyricListRef,
+      pureMusicLyric,
+      playingLyric,
     };
   },
 };
@@ -371,6 +425,7 @@ export default {
         width: 100%;
         height: 0;
         padding-top: 80%;
+        display: none;
         .cd-wrapper {
           position: absolute;
           left: 10%;
