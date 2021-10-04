@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-03 14:42:38
- * @LastEditTime: 2021-10-04 15:59:35
+ * @LastEditTime: 2021-10-04 16:55:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-lyric.js
@@ -64,12 +64,11 @@ export default function useLyric({ songReady, currentTime }) {
             //有歌词非纯音乐
             if (songReady.value) {
                 playLyric()
-            } else {
-                //纯音乐
-                playingLyric.value = '[00:00:00]该歌曲暂时无法获取歌词'
-                pureMusicLyric.value = '[00:00:00]该歌曲暂时无法获取歌词'
             }
-
+        }
+        else {
+            //纯音乐
+            playingLyric.value = pureMusicLyric.value = '该歌曲为纯音乐，请欣赏'
         }
         console.log(lyric)
     })

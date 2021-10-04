@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-04 15:07:39
+ * @LastEditTime: 2021-10-04 19:35:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -23,8 +23,13 @@
           {{ currentSong?.ar[1]?.name }}
         </h2>
       </div>
-      <div class="middle">
-        <div class="middle-l">
+      <div
+        class="middle"
+        @touchstart.prevent="onMiddleTouchStart"
+        @touchmove.prevent="onMiddleTouchMove"
+        @touchend.prevent="onMiddleTouchEnd"
+      >
+        <div class="middle-l" :style="middleLStyle">
           <div class="cd-wrapper">
             <div class="cd" ref="cdRef">
               <img
@@ -39,7 +44,7 @@
             <div class="playing-lyric">{{ playingLyric }}</div>
           </div>
         </div>
-        <scroll class="middle-r" ref="lyricScrollRef">
+        <scroll class="middle-r" ref="lyricScrollRef" :style="middleRStyle">
           <div class="lyric-wrapper">
             <div v-if="currentLyric" ref="lyricListRef">
               <p
@@ -58,6 +63,11 @@
         </scroll>
       </div>
       <div class="bottom">
+        <!-- 两个页面切换的圆点 -->
+        <div class="dot-wrapper">
+          <span class="dot" :class="{ active: currentShow === 'cd' }"></span>
+          <span class="dot" :class="{ active: currentShow === 'lyric' }"></span>
+        </div>
         <!-- 进度条 -->
         <div class="progress-wrapper">
           <span class="time time-l">{{ formatTime(currentTime) }}</span>
@@ -115,6 +125,7 @@ import { PLAY_MODE } from '@/assets/js/constant';
 import useCd from './use-cd';
 import useLyric from './use-lyric';
 import Scroll from '@/components/base/scroll/scroll';
+import useMiddleInteractive from './use-middle-interactive';
 export default {
   name: 'player',
   components: {
@@ -156,6 +167,14 @@ export default {
       songReady,
       currentTime,
     });
+    const {
+      currentShow,
+      middleLStyle,
+      middleRStyle,
+      onMiddleTouchStart,
+      onMiddleTouchMove,
+      onMiddleTouchEnd,
+    } = useMiddleInteractive();
 
     //computed
     //根据不同播放状态求得不同icon
@@ -350,6 +369,13 @@ export default {
       lyricListRef,
       pureMusicLyric,
       playingLyric,
+      // middle-interactive
+      currentShow,
+      middleLStyle,
+      middleRStyle,
+      onMiddleTouchStart,
+      onMiddleTouchMove,
+      onMiddleTouchEnd,
     };
   },
 };
@@ -425,7 +451,6 @@ export default {
         width: 100%;
         height: 0;
         padding-top: 80%;
-        display: none;
         .cd-wrapper {
           position: absolute;
           left: 10%;
