@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-04 16:30:02
- * @LastEditTime: 2021-10-04 19:30:50
+ * @LastEditTime: 2021-10-05 16:25:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-middle-interactive.js
@@ -11,11 +11,12 @@ import { ref } from 'vue'
 export default function useMiddleInteractive() {
   //默认值为cd这个视图层
   const currentShow = ref('cd')
+
   //给左右两个视图 动态绑定样式
   const middleLStyle = ref(null)
   const middleRStyle = ref(null)
 
-
+  //定义一个对象用来存东西
   const touch = {}
   let currentView = 'cd'   //最终的视图
 
@@ -46,8 +47,10 @@ export default function useMiddleInteractive() {
     }
 
     const left = currentView === 'cd' ? 0 : -window.innerWidth
+
     //计算出偏移量
     const offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + deltaX))
+
     //算出偏移比例
     touch.percent = Math.abs(offsetWidth / window.innerWidth)
 
@@ -64,8 +67,6 @@ export default function useMiddleInteractive() {
         currentShow.value = 'lyric'
       }
     }
-
-
 
     middleLStyle.value = {
       opacity: 1 - touch.percent

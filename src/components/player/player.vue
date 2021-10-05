@@ -1,13 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-04 19:35:58
+ * @LastEditTime: 2021-10-05 20:09:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
 -->
 <template>
-  <div class="player">
+  <div class="player" v-show="playList.length">
     <div class="normal-player" v-if="fullScreen">
       <div class="background">
         <img :src="currentSong.song_pic" alt="" />
@@ -18,7 +18,7 @@
         </div>
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">
-          {{ currentSong.ar[0].name }}
+          {{ currentSong?.ar?.[0]?.name }}
           <span v-if="currentSong?.ar[1]?.name">/</span>
           {{ currentSong?.ar[1]?.name }}
         </h2>
@@ -104,6 +104,7 @@
         </div>
       </div>
     </div>
+    <mini-player :progress="progress" :togglePlay="togglePlay"></mini-player>
     <audio
       ref="audioRef"
       @pause="pause"
@@ -126,13 +127,14 @@ import useCd from './use-cd';
 import useLyric from './use-lyric';
 import Scroll from '@/components/base/scroll/scroll';
 import useMiddleInteractive from './use-middle-interactive';
+import MiniPlayer from './mini-player.vue';
 export default {
   name: 'player',
   components: {
     ProgressBar,
     Scroll,
+    MiniPlayer,
   },
-
   setup() {
     //data
     const audioRef = ref(null);
@@ -149,7 +151,6 @@ export default {
     const playMode = computed(() => store.state.playMode);
     //获取播放状态
     const playing = computed(() => store.state.playing);
-
     //引入hook函数
     const { modeIcon, changeMode } = useMode();
     const { getFavoriteIcon, toggleFavorite } = useFavorite();
@@ -175,65 +176,65 @@ export default {
       onMiddleTouchMove,
       onMiddleTouchEnd,
     } = useMiddleInteractive();
-
     //computed
     //根据不同播放状态求得不同icon
     const playIcon = computed(() => {
       return playing.value ? 'icon-pause' : 'icon-play';
     });
-
     const progress = computed(() => {
       return currentTime.value / duration.value;
     });
-
     const disableCls = computed(() => {
       return songReady.value ? '' : 'disable';
     });
-
     //watch
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.songurl) {
         return;
       }
-      currentTime.value = 0;
-      songReady.value = false;
-      const audioEl = audioRef.value;
-      audioEl.src = newSong.songurl;
-      audioEl.play();
+      try {
+        currentTime.value = 0;
+        songReady.value = false;
+        const audioEl = audioRef.value;
+        audioEl.src = newSong.songurl;
+        audioEl.play();
+      } catch (e) {
+        console.log(e);
+      }
     });
-
     //监听playing 控制音乐的播放和暂停
     watch(playing, (newPlaying) => {
+      debugger;
       if (!songReady.value) {
         return;
       }
       const audioEl = audioRef.value;
-      if (newPlaying) {
-        audioEl.play();
-        playLyric();
-      } else {
-        audioEl.pause();
-        stopLyric();
+      try {
+        if (newPlaying) {
+          audioEl.play();
+          playLyric();
+        } else {
+          audioEl.pause();
+          stopLyric();
+        }
+      } catch (e) {
+        console.log(e);
       }
     });
-
     //function
     function goBack() {
       store.commit('setFullScreen', false);
     }
-
     function togglePlay() {
       if (!songReady.value) {
         return;
       }
       store.commit('setPlayingState', !playing.value);
     }
-
     //意外暂停 比如睡眠，待机等 audio会触发了暂停机制
     function pause() {
       store.commit('setPlayingState', false);
     }
-
     //切换到上一首歌曲
     function prev() {
       const list = playList.value;
@@ -254,7 +255,6 @@ export default {
         }
       }
     }
-
     //切换到下一首歌曲
     function next() {
       const list = playList.value;
@@ -274,7 +274,6 @@ export default {
         }
       }
     }
-
     //循环loop函数
     function loop() {
       const audioEl = audioRef.value;
@@ -282,7 +281,6 @@ export default {
       audioEl.play();
       store.commit('setPlayingState', true);
     }
-
     //检测歌曲链接是否缓存好
     function ready() {
       if (songReady.value) {
@@ -296,20 +294,17 @@ export default {
     function error() {
       songReady.value = true;
     }
-
     function updateTime(e) {
       if (!progressChanging) {
         currentTime.value = e.target.currentTime;
       }
     }
-
     function onProgressChanging(progress) {
       progressChanging = true;
       currentTime.value = duration.value * progress;
       playLyric();
       stopLyric();
     }
-
     function onProgressChanged(progress) {
       progressChanging = false;
       audioRef.value.currentTime = currentTime.value =
@@ -319,7 +314,6 @@ export default {
       }
       playLyric();
     }
-
     //结束后的函数
     function end() {
       currentTime.value = 0;
@@ -335,6 +329,7 @@ export default {
       fullScreen,
       currentTime,
       currentSong,
+      playList,
       audioRef,
       duration,
       goBack,
@@ -399,7 +394,6 @@ export default {
       z-index: -1;
       opacity: 0.6;
       filter: blur(20px);
-
       img {
         width: 100%;
         height: 100%;
