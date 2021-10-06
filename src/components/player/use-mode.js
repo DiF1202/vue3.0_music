@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-30 20:09:24
- * @LastEditTime: 2021-10-02 13:54:33
+ * @LastEditTime: 2021-10-06 15:16:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-mode.js
@@ -28,6 +28,15 @@ export default function useMode() {
                 : 'icon-loop'
     })
 
+    const modeText = computed(() => {
+        const playModeVal = playMode.value
+        return playModeVal === PLAY_MODE.sequence
+            ? '顺序播放'
+            : playModeVal === PLAY_MODE.random
+                ? '随机播放'
+                : '单曲循环'
+    })
+
     function changeMode() {
         const mode = (playMode.value + 1) % 3
         //写在actions里面的changeMode
@@ -35,6 +44,7 @@ export default function useMode() {
     }
     return {
         modeIcon,
-        changeMode
+        changeMode,
+        modeText
     }
 }

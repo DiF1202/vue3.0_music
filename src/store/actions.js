@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:56:17
- * @LastEditTime: 2021-10-02 13:48:55
+ * @LastEditTime: 2021-10-07 01:37:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\actions.js
@@ -55,4 +55,44 @@ export function changeMode({ commit, state, getters }, mode) {
 
     commit('setCurrentIndex', index)
     commit('setPlayMode', mode)
+}
+
+//删除playlist里面的歌曲
+export function removeSong({ commit, state }, song) {
+    const sequenceList = state.sequenceList.slice()
+    const playlist = state.playList.slice()
+
+    const sequenceIndex = findIndex(sequenceList, song)
+    const playIndex = findIndex(playlist, song)
+    if (sequenceIndex < 0 || playIndex < 0) {
+        return
+    }
+
+    sequenceList.splice(sequenceIndex, 1)
+    playlist.splice(playIndex, 1)
+
+    let currentIndex = state.currentIndex
+    if (playIndex < currentIndex || currentIndex === playlist.length) {
+        currentIndex--
+    }
+
+    commit('setSequenceList', sequenceList)
+    commit('setPlayList', playlist)
+    commit('setCurrentIndex', currentIndex)
+    if (!playlist.length) {
+        commit('setPlayingState', false)
+    }
+}
+
+export function clearSongList({ commit }) {
+    commit('setSequenceList', [])
+    commit('setPlayList', [])
+    commit('setCurrentIndex', 0)
+    commit('setPlayingState', false)
+}
+
+function findIndex(list, song) {
+    return list.findIndex((item) => {
+        return item.id === song.id
+    })
 }

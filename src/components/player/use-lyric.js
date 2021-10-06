@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-03 14:42:38
- * @LastEditTime: 2021-10-04 16:55:41
+ * @LastEditTime: 2021-10-07 01:40:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-lyric.js
@@ -70,7 +70,6 @@ export default function useLyric({ songReady, currentTime }) {
             //纯音乐
             playingLyric.value = pureMusicLyric.value = '该歌曲为纯音乐，请欣赏'
         }
-        console.log(lyric)
     })
 
 

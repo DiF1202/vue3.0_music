@@ -41,7 +41,7 @@
 
 
 <script>
-import Scroll from '@/components/base/scroll/scroll';
+import Scroll from '../wrap-scroll/index';
 import useFixed from './use-fixed';
 import useShortcut from './use-shortcut';
 export default {

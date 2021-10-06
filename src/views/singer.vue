@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-09-26 16:28:56
+ * @LastEditTime: 2021-10-07 02:06:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -21,7 +21,7 @@
 <script>
 import { getSingerList } from '@/service/singer';
 import { formatSingerList } from '@/service/singer';
-import IndexList from '../components/base/index-list/index-list.vue';
+import IndexList from '../components/index-list/index-list.vue';
 import storage from 'good-storage';
 import { SINGER_KEY } from '@/assets/js/constant';
 

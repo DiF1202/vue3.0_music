@@ -14,9 +14,13 @@
       </div>
       <div ref="sliderWrapperRef" class="slider-wrapper">
         <div class="slider-group">
-          <div class="slider-page" v-for="song in playlist" :key="song.id">
-            <h2 class="name">{{ song.name }}</h2>
-            <p class="desc">{{ song.singer }}</p>
+          <div class="slider-page">
+            <h2 class="name">{{ currentSong.name }}</h2>
+            <p class="desc">
+              {{ currentSong?.ar?.[0]?.name }}
+              <span v-if="currentSong?.ar?.[1]?.name">/</span>
+              {{ currentSong?.ar?.[1]?.name }}
+            </p>
           </div>
         </div>
       </div>
@@ -32,7 +36,7 @@
       <div class="control" @click.stop="showPlaylist">
         <i class="icon-playlist"></i>
       </div>
-      <!-- <playlist ref="playlistRef"></playlist> -->
+      <playlist ref="playlistRef"></playlist>
     </div>
   </transition>
 </template>
@@ -43,11 +47,13 @@ import { computed, ref } from 'vue';
 import useCd from './use-cd';
 import useMiniSlider from './use-mini-slider';
 import ProgressCircle from './progress-circle';
+import Playlist from './playlist';
 
 export default {
   name: 'mini-player',
   components: {
     ProgressCircle,
+    Playlist,
   },
   props: {
     progress: {
@@ -57,6 +63,8 @@ export default {
     togglePlay: Function,
   },
   setup() {
+    //data
+    const playlistRef = ref(null);
     //vuex
     const store = useStore();
     const fullScreen = computed(() => store.state.fullScreen);
@@ -76,13 +84,17 @@ export default {
       store.commit('setFullScreen', true);
     }
 
+    function showPlaylist() {
+      playlistRef.value.show();
+    }
     return {
+      playlistRef,
       playlist,
       fullScreen,
       currentSong,
-      // clickOnece,
       miniPlayIcon,
       showNormalPlayer,
+      showPlaylist,
       // cd
       cdCls,
       cdRef,

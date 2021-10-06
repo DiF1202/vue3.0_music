@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-09-24 21:39:27
+ * @LastEditTime: 2021-10-07 02:08:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -41,7 +41,7 @@
 <script>
 import { getRecommend, getPlayList } from '@/service/recommend';
 import Slider from '@/components/base/slider/slider';
-import Scroll from '@/components/base/scroll/scroll';
+import Scroll from '../components/wrap-scroll/index';
 export default {
   name: 'recommend',
   components: {

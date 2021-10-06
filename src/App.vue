@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-10-05 19:01:29
+ * @LastEditTime: 2021-10-07 01:53:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\App.vue
@@ -9,7 +9,7 @@
 <template>
   <m-header></m-header>
   <tab></tab>
-  <router-view></router-view>
+  <router-view :style="viewStyle"></router-view>
   <player></player>
 </template>
 
@@ -17,12 +17,22 @@
 import Header from '@/components/header/header.vue';
 import Tab from '@/components/tab/tab';
 import Player from '@/components/player/player';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     Player,
     MHeader: Header,
     Tab,
+  },
+  computed: {
+    viewStyle() {
+      const bottom = this.playList.length ? '60px' : '0';
+      return {
+        bottom,
+      };
+    },
+    ...mapState(['playList']),
   },
 };
 </script>

@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import scroll from '../base/scroll/scroll.vue';
+import scroll from '../wrap-scroll/index';
 import SongList from '../base/song-list/song-list.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 const RESERVED_HEIGHT = 40;
 
 export default {
@@ -117,8 +117,10 @@ export default {
       };
     },
     scrollStyle() {
+      const bottom = this.playList.length ? '60px' : '0';
       return {
         top: `${this.imageHeight}px`,
+        bottom,
       };
     },
     filterStyle() {
@@ -146,6 +148,7 @@ export default {
         display,
       };
     },
+    ...mapState(['playList']),
   },
   mounted() {
     this.imageHeight = this.$refs.bgImage.clientHeight;
