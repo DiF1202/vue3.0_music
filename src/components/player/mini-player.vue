@@ -14,9 +14,9 @@
       </div>
       <div ref="sliderWrapperRef" class="slider-wrapper">
         <div class="slider-group">
-          <div class="slider-page">
-            <h2 class="name">{{ currentSong.name }}</h2>
-            <p class="desc">{{ currentSong?.ar?.[0]?.name }}</p>
+          <div class="slider-page" v-for="song in playlist" :key="song.id">
+            <h2 class="name">{{ song.name }}</h2>
+            <p class="desc">{{ song.singer }}</p>
           </div>
         </div>
       </div>
@@ -25,13 +25,13 @@
           <i
             class="icon-mini"
             :class="miniPlayIcon"
-            @click.stop="clickOnece"
+            @click.stop="togglePlay"
           ></i>
         </progress-circle>
       </div>
-      <!-- <div class="control" @click.stop="showPlaylist">
+      <div class="control" @click.stop="showPlaylist">
         <i class="icon-playlist"></i>
-      </div> -->
+      </div>
       <!-- <playlist ref="playlistRef"></playlist> -->
     </div>
   </transition>
@@ -39,9 +39,10 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import useCd from './use-cd';
-import ProgressCircle from './progress-circle.vue';
+import useMiniSlider from './use-mini-slider';
+import ProgressCircle from './progress-circle';
 
 export default {
   name: 'mini-player',
@@ -56,13 +57,17 @@ export default {
     togglePlay: Function,
   },
   setup() {
+    //vuex
     const store = useStore();
     const fullScreen = computed(() => store.state.fullScreen);
     const currentSong = computed(() => store.getters.currentSong);
     const playing = computed(() => store.state.playing);
+    const playlist = computed(() => store.state.playList);
 
+    //hook cd
     const { cdCls, cdRef, cdImageRef } = useCd();
-
+    //hook slider
+    const { sliderWrapperRef } = useMiniSlider();
     const miniPlayIcon = computed(() => {
       return playing.value ? 'icon-pause-mini' : 'icon-play-mini';
     });
@@ -71,22 +76,19 @@ export default {
       store.commit('setFullScreen', true);
     }
 
-    function clickOnece() {
-      console.log('点击了');
-      console.log(playing.value);
-      store.commit('setPlayingState', !playing.value);
-    }
-
     return {
+      playlist,
       fullScreen,
       currentSong,
-      clickOnece,
+      // clickOnece,
       miniPlayIcon,
       showNormalPlayer,
       // cd
       cdCls,
       cdRef,
       cdImageRef,
+      //mini-slider
+      sliderWrapperRef,
     };
   },
 };

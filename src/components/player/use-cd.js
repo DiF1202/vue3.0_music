@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-03 12:58:23
- * @LastEditTime: 2021-10-03 13:50:19
+ * @LastEditTime: 2021-10-05 22:32:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-cd.js
@@ -14,9 +14,7 @@ export default function useCd() {
     const cdImageRef = ref(null)
 
     const store = useStore()
-    const playing = computed(() => {
-        return store.state.playing
-    })
+    const playing = computed(() => store.state.playing)
 
     const cdCls = computed(() => {
         return playing.value ? 'playing' : ''
@@ -25,7 +23,9 @@ export default function useCd() {
     watch(playing, (newPlaying) => {
         if (!newPlaying) {
             //暂停
-            syncTransform(cdRef.value, cdImageRef.value)
+            if (cdRef.value && cdImageRef.value) {
+                syncTransform(cdRef.value, cdImageRef.value)
+            }
         }
     })
 
@@ -35,7 +35,7 @@ export default function useCd() {
         //内层的角度
         const innerTransform = getComputedStyle(inner).transform
         //外层角度变化
-        wrapper.style.transform = wrapperTransform == 'none' ? innerTransform : innerTransform.concat(' ', wrapperTransform)
+        wrapper.style.transform = wrapperTransform === 'none' ? innerTransform : innerTransform.concat(' ', wrapperTransform)
     }
 
     return {

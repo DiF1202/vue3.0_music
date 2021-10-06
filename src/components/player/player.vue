@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-05 20:09:18
+ * @LastEditTime: 2021-10-05 23:57:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -19,18 +19,18 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">
           {{ currentSong?.ar?.[0]?.name }}
-          <span v-if="currentSong?.ar[1]?.name">/</span>
-          {{ currentSong?.ar[1]?.name }}
+          <span v-if="currentSong?.ar?.[1]?.name">/</span>
+          {{ currentSong?.ar?.[1]?.name }}
         </h2>
       </div>
       <div
         class="middle"
-        @touchstart.prevent="onMiddleTouchStart"
-        @touchmove.prevent="onMiddleTouchMove"
-        @touchend.prevent="onMiddleTouchEnd"
+        @touchstart="onMiddleTouchStart"
+        @touchmove="onMiddleTouchMove"
+        @touchend="onMiddleTouchEnd"
       >
         <div class="middle-l" :style="middleLStyle">
-          <div class="cd-wrapper">
+          <div class="cd-wrapper" ref="cdWrapperRef">
             <div class="cd" ref="cdRef">
               <img
                 ref="cdImageRef"
@@ -117,7 +117,7 @@
 </template>
 <script>
 import { useStore } from 'vuex';
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, nextTick } from 'vue';
 import useMode from './use-mode';
 import useFavorite from './use-favorite';
 import ProgressBar from './progress-bar.vue';
@@ -138,10 +138,12 @@ export default {
   setup() {
     //data
     const audioRef = ref(null);
+    const barRef = ref(null);
     const songReady = ref(false);
     const currentTime = ref(0); //当前播放时长
     const duration = ref(0);
     let progressChanging = false;
+
     //vuex
     const store = useStore();
     const fullScreen = computed(() => store.state.fullScreen);
@@ -204,21 +206,23 @@ export default {
     });
     //监听playing 控制音乐的播放和暂停
     watch(playing, (newPlaying) => {
-      debugger;
       if (!songReady.value) {
         return;
       }
       const audioEl = audioRef.value;
-      try {
-        if (newPlaying) {
-          audioEl.play();
-          playLyric();
-        } else {
-          audioEl.pause();
-          stopLyric();
-        }
-      } catch (e) {
-        console.log(e);
+
+      if (newPlaying) {
+        audioEl.play();
+        playLyric();
+      } else {
+        audioEl.pause();
+        stopLyric();
+      }
+    });
+    watch(fullScreen, async (newFullScreen) => {
+      if (newFullScreen) {
+        await nextTick();
+        barRef.value.setOffset(progress.value);
       }
     });
     //function
@@ -326,6 +330,7 @@ export default {
     //return
     return {
       progress,
+      barRef,
       fullScreen,
       currentTime,
       currentSong,

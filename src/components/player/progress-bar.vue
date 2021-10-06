@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-02 20:18:42
- * @LastEditTime: 2021-10-03 01:12:01
+ * @LastEditTime: 2021-10-05 23:50:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\progress-bar.vue

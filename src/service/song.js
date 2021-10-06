@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 18:45:07
- * @LastEditTime: 2021-10-04 16:54:59
+ * @LastEditTime: 2021-10-06 11:51:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\song.js
@@ -82,3 +82,4 @@ export function getLyric(song) {
         return lyric
     })
 }
+
