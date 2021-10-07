@@ -1,14 +1,20 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 00:38:27
- * @LastEditTime: 2021-10-03 01:37:47
+ * @LastEditTime: 2021-10-07 16:35:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\singer-detail.vue
 -->
 <template>
   <div class="singer-detail">
-    <music-list :songs="songs" :title="title" :pic="pic" :loading="loading">
+    <music-list
+      :songs="songs"
+      :title="title"
+      :pic="pic"
+      :loading="loading"
+      :showAuthorName="showAuthorName"
+    >
     </music-list>
   </div>
 </template>
@@ -16,8 +22,7 @@
 <script>
 // import { getSingerDetail } from '@/service/singer';
 import { getSingerSongs } from '@/service/song.js';
-import { processSongs } from '@/service/song.js';
-import { getUrls } from '@/service/song.js';
+import { processSongs, getUrls } from '@/service/song.js';
 import MusicList from '../components/music-list/music-list.vue';
 import storage from 'good-storage';
 import { SINGER_KEY } from '@/assets/js/constant';
@@ -32,6 +37,7 @@ export default {
     return {
       songs: [],
       loading: true,
+      showAuthorName: true,
     };
   },
   computed: {
@@ -76,6 +82,9 @@ export default {
     this.songs = await processSongs(data_songs.songs);
     this.songs = await getUrls(this.songs);
     this.loading = false;
+    console.log(this.songs);
+    console.log(this.title);
+    console.log(this.pic);
   },
 };
 </script>

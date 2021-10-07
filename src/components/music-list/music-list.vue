@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 23:21:50
- * @LastEditTime: 2021-10-03 02:01:52
+ * @LastEditTime: 2021-10-07 16:31:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\music-list\music-list.vue
@@ -41,6 +41,7 @@
           :title="title"
           @select="selectItem"
           v-show="!loading"
+          :showAuthorName="showAuthorName"
         >
         </song-list>
       </div>
@@ -70,6 +71,12 @@ export default {
     noResultText: {
       type: String,
       default: '抱歉，没有找到可播放的歌曲',
+    },
+    showAuthorName: {
+      type: Boolean,
+      default() {
+        return false;
+      },
     },
   },
   data() {

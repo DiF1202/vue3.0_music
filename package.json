@@ -9,18 +9,18 @@
   },
   "dependencies": {
     "@better-scroll/core": "^2.2.1",
-    "@better-scroll/slide": "^2.2.1",
     "@better-scroll/observe-dom": "^2.2.1",
     "@better-scroll/pull-up": "^2.2.1",
+    "@better-scroll/slide": "^2.2.1",
     "axios": "^0.21.4",
     "cookie-parser": "^1.4.5",
     "core-js": "^3.6.5",
+    "create-keyframe-animation": "^0.1.0",
     "default-passive-events": "^2.0.0",
     "good-storage": "^1.1.1",
     "jian-pinyin": "^0.2.3",
     "js-base64": "^3.7.1",
     "lyric-parser": "^1.0.1",
-    "create-keyframe-animation": "^0.1.0",
     "pinyin": "^2.10.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
@@ -29,6 +29,7 @@
     "xsrf": "^1.0.0"
   },
   "devDependencies": {
+    "@types/good-storage": "^1.1.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

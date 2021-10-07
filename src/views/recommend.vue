@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-10-07 02:08:08
+ * @LastEditTime: 2021-10-07 16:05:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -18,7 +18,12 @@
         <div class="recommend-list">
           <h1 class="list-title" v-show="!loading">热门歌单推荐</h1>
           <ul>
-            <li v-for="item in playlists" class="item" :key="item.id">
+            <li
+              v-for="item in playlists"
+              class="item"
+              :key="item.id"
+              @click="selectItem(item)"
+            >
               <div class="icon">
                 <img width="60" height="60" v-lazy="item.coverImgUrl" />
               </div>
@@ -35,6 +40,11 @@
         </div>
       </div>
     </scroll>
+    <router-view v-slot="{ Component }">
+      <transition appear name="slide">
+        <component :is="Component" :album="selectedAlbum" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -42,6 +52,9 @@
 import { getRecommend, getPlayList } from '@/service/recommend';
 import Slider from '@/components/base/slider/slider';
 import Scroll from '../components/wrap-scroll/index';
+import { ALBUM_KEY } from '@/assets/js/constant';
+import storage from 'good-storage';
+
 export default {
   name: 'recommend',
   components: {
@@ -53,6 +66,7 @@ export default {
       sliders: [],
       playlists: [],
       loadingText: '正在载入',
+      selectedAlbum: null,
     };
   },
   computed: {
@@ -67,7 +81,19 @@ export default {
     //获取歌单数据
     const playList = await getPlayList(15);
     this.playlists = playList.playlists;
-    // console.log(this.playlists);
+    console.log(this.playlists);
+  },
+  methods: {
+    selectItem(album) {
+      this.selectedAlbum = album;
+      this.cacheAlbum(album);
+      this.$router.push({
+        path: `/recommend/${album.id}`,
+      });
+    },
+    cacheAlbum(album) {
+      storage.session.set(ALBUM_KEY, album);
+    },
   },
 };
 </script>

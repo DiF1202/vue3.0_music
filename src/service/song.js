@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 18:45:07
- * @LastEditTime: 2021-10-06 11:51:33
+ * @LastEditTime: 2021-10-07 15:45:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\song.js
@@ -16,7 +16,15 @@ export function getSingerSongs(singer) {
     })
 }
 
+//获取歌单的歌曲
+export function getAlbum(album) {
+    return get('/playlist/detail', {
+        id: album.id
+    })
+}
+
 //这个要修改
+//拿到图片
 export function processSongs(singerSongs) {
     if (!singerSongs.length) {
         return Promise.resolve(singerSongs)
@@ -37,6 +45,7 @@ export function processSongs(singerSongs) {
 
 }
 
+//拿到mp3地址
 export function getUrls(singerSongs) {
     if (!singerSongs.length) {
         return Promise.resolve(singerSongs)

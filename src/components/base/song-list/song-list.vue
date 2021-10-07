@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-24 18:28:05
- * @LastEditTime: 2021-10-03 02:01:35
+ * @LastEditTime: 2021-10-07 16:33:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\base\song-list\song-list.vue
@@ -17,8 +17,11 @@
       >
         <div class="rank"></div>
         <div class="content">
-          <h2 class="name">{{ song.name }}</h2>
-          <p class="desc">{{ title }}--{{ song.al.name }}</p>
+          <h2 class="name">{{ song?.name }}</h2>
+          <p class="desc" v-show="showAuthorName">
+            {{ title }}--{{ song?.al?.name }}
+          </p>
+          <p class="desc" v-show="!showAuthorName">{{ song?.al?.name }}</p>
         </div>
       </li>
     </ul>
@@ -37,6 +40,12 @@ export default {
     },
     title: {
       type: String,
+    },
+    showAuthorName: {
+      type: Boolean,
+      default() {
+        return false;
+      },
     },
   },
   emits: ['select'],
