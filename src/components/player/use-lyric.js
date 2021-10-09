@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-03 14:42:38
- * @LastEditTime: 2021-10-07 01:40:01
+ * @LastEditTime: 2021-10-09 12:24:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-lyric.js

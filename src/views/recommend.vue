@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-10-07 16:05:45
+ * @LastEditTime: 2021-10-09 13:41:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -76,12 +76,11 @@ export default {
   },
   async created() {
     //获取轮播图数据
-    const result = await getRecommend();
-    this.sliders = result.banners;
+    const { banners } = await getRecommend();
+    this.sliders = banners;
     //获取歌单数据
-    const playList = await getPlayList(15);
-    this.playlists = playList.playlists;
-    console.log(this.playlists);
+    const { playlists } = await getPlayList(35);
+    this.playlists = playlists;
   },
   methods: {
     selectItem(album) {

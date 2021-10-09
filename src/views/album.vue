@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-07 11:47:50
+ * @LastEditTime: 2021-10-09 18:22:15
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue3.0_music\src\views\album.vue
+-->
 <template>
   <div class="album">
     <music-list
@@ -10,11 +18,10 @@
 </template>
 
 <script>
-import { getAlbum } from '../service/song';
+import { getAlbum, getSongsDetail, getMp3s } from '../service/song';
 import MusicList from '../components/music-list/music-list.vue';
 import storage from 'good-storage';
 import { ALBUM_KEY } from '@/assets/js/constant';
-import { processSongs, getUrls } from '@/service/song.js';
 export default {
   name: 'album',
   components: { MusicList },
@@ -59,11 +66,17 @@ export default {
       });
       return;
     }
-    const data_songs = await getAlbum(this.computedAlbum);
-    //获取歌单能播放的歌
-    this.songs = data_songs.playlist.tracks;
-    this.songs = await processSongs(this.songs);
-    this.songs = await getUrls(this.songs);
+    const { playlist } = await getAlbum(this.computedAlbum);
+    //获取数组ids
+    const ids = playlist.trackIds;
+    let Array_ids = ids.map((item) => {
+      return item.id;
+    });
+    Array_ids = Array_ids.join(',');
+    //进行请求
+    //解构出songs
+    const { songs } = await getSongsDetail(Array_ids);
+    this.songs = await getMp3s(songs.slice(0, 50));
     this.loading = false;
   },
 };

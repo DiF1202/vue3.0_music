@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-06 18:36:14
+ * @LastEditTime: 2021-10-09 18:36:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -17,7 +17,7 @@
     >
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
-          <img :src="currentSong.song_pic" alt="" />
+          <img :src="currentSong?.al?.picUrl + '?param=300y300'" alt="" />
         </div>
         <div class="top">
           <div class="back" @click="goBack">
@@ -40,10 +40,11 @@
             <div ref="cdWrapperRef" class="cd-wrapper">
               <div class="cd" ref="cdRef">
                 <img
+                  v-show="currentSong?.al?.picUrl"
                   ref="cdImageRef"
                   class="image"
                   :class="cdCls"
-                  :src="currentSong.song_pic"
+                  :src="currentSong?.al?.picUrl + '?param=300y300'"
                 />
               </div>
             </div>
@@ -140,6 +141,7 @@ import Scroll from '@/components/base/scroll/scroll';
 import useMiddleInteractive from './use-middle-interactive';
 import MiniPlayer from './mini-player.vue';
 import useAnimation from './use-animation';
+
 export default {
   name: 'player',
   components: {
@@ -155,7 +157,6 @@ export default {
     const currentTime = ref(0); //当前播放时长
     const duration = ref(0);
     let progressChanging = false;
-
     //vuex
     const store = useStore();
     const fullScreen = computed(() => store.state.fullScreen);

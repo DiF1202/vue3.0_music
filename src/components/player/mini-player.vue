@@ -4,10 +4,11 @@
       <div class="cd-wrapper">
         <div ref="cdRef" class="cd">
           <img
+            v-show="currentSong?.al?.picUrl"
             ref="cdImageRef"
             width="40"
             height="40"
-            :src="currentSong.song_pic"
+            :src="currentSong?.al?.picUrl + '?param=300y300'"
             :class="cdCls"
           />
         </div>

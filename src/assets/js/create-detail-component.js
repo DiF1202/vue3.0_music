@@ -1,6 +1,14 @@
+/*
+ * @Author: your name
+ * @Date: 2021-10-07 13:28:54
+ * @LastEditTime: 2021-10-08 02:18:50
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \vue3.0_music\src\assets\js\create-detail-component.js
+ */
 import MusicList from '@/components/music-list/music-list'
 import storage from 'good-storage'
-import { processSongs } from '@/service/song'
+
 
 export default function createDetailComponent(name, key, fetch) {
   return {
@@ -48,7 +56,6 @@ export default function createDetailComponent(name, key, fetch) {
         return
       }
       const result = await fetch(data)
-      this.songs = await processSongs(result.songs)
       this.loading = false
     }
   }

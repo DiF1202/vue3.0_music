@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 18:45:07
- * @LastEditTime: 2021-10-07 15:45:41
+ * @LastEditTime: 2021-10-09 13:25:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\song.js
@@ -10,9 +10,9 @@ import { get } from './base.js'
 
 //获取歌手个人所有歌曲
 export function getSingerSongs(singer) {
-    return get('/artist/songs', {
+    return get('/artist/top/song', {
         id: singer.id,
-        limit: 25
+        // limit: 25
     })
 }
 
@@ -23,30 +23,16 @@ export function getAlbum(album) {
     })
 }
 
-//这个要修改
-//拿到图片
-export function processSongs(singerSongs) {
-    if (!singerSongs.length) {
-        return Promise.resolve(singerSongs)
-    }
-
-    return Promise.all(singerSongs.map((item) => {
-        return new Promise((resolve, reject) => {
-            get('/song/detail', { ids: item.id }).then((result) => {
-                resolve({
-                    ...item,
-                    song_pic: `${result.songs[0].al.picUrl}?param=300y300`
-                })
-            }, (error) => {
-                reject(error)
-            })
-        })
-    }))
+//根据id数组获取歌曲详情
+export function getSongsDetail(ids) {
+    return get('/song/detail', {
+        ids: ids
+    })
 
 }
 
-//拿到mp3地址
-export function getUrls(singerSongs) {
+//获取mp3
+export function getMp3s(singerSongs) {
     if (!singerSongs.length) {
         return Promise.resolve(singerSongs)
     }
@@ -92,3 +78,48 @@ export function getLyric(song) {
     })
 }
 
+//创建一个mpe3Map 用来存mp3数据
+// const songurlsMap = {}
+// export function getMp3(song) {
+//     //如果song的json结构上已经有了就返回不在请求
+//     if (song.songurl) {
+//         return Promise.resolve(song.songurl)
+//     }
+//     //存入Map数据结构中
+//     const songurl = songurlsMap[song.id]
+//     if (songurl) {
+//         return Promise.resolve(songurl)
+//     }
+//     //对mp3地址请求
+//     return get('/song/url', {
+//         id: song.id,
+//     }).then((result) => {
+//         let songurl = null
+//         if (result?.data?.[0]?.url) {
+//             songurl = result?.data?.[0]?.url
+//         }
+//         return songurl
+//     })
+// }
+
+// //获取图片
+// const imgsMap = {}
+// export function getSongImg(song) {
+//     if (song.song_pic) {
+//         return Promise.resolve(song.song_pic)
+//     }
+//     const song_pic = imgsMap[song.id]
+//     if (song_pic) {
+//         return Promise.resolve(song_pic)
+//     }
+//     //进行对歌词的请求封装
+//     return get('/song/detail', {
+//         ids: song.id,
+//     }).then((result) => {
+//         let song_pic = null
+//         if (result?.songs?.[0]?.al?.picUrl) {
+//             song_pic = `${result?.songs?.[0]?.al?.picUrl}?param=300y300`
+//         }
+//         return song_pic
+//     })
+// }

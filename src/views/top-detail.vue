@@ -1,52 +1,50 @@
 <!--
  * @Author: your name
- * @Date: 2021-09-23 00:38:27
- * @LastEditTime: 2021-10-09 12:38:43
+ * @Date: 2021-10-07 18:52:45
+ * @LastEditTime: 2021-10-09 16:58:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \vue3.0_music\src\views\singer-detail.vue
+ * @FilePath: \vue3.0_music\src\views\top-detail.vue
 -->
 <template>
-  <div class="singer-detail">
+  <div class="top-detail">
     <music-list
       :songs="songs"
       :title="title"
       :pic="pic"
       :loading="loading"
-      :showAuthorName="showAuthorName"
-    >
-    </music-list>
+      rank
+    ></music-list>
   </div>
 </template>
 
 <script>
-import { getSingerSongs, getMp3s } from '@/service/song.js';
+import { getTopDetail } from '@/service/top-list.js';
+import { getMp3s } from '@/service/song.js';
 import MusicList from '../components/music-list/music-list.vue';
 import storage from 'good-storage';
-import { SINGER_KEY } from '@/assets/js/constant';
-
+import { TOP_KEY } from '@/assets/js/constant';
 export default {
-  name: 'singer-detail',
+  name: 'top-detail',
   components: { MusicList },
   props: {
-    singer: Object,
+    top: Object,
   },
   data() {
     return {
       songs: [],
       loading: true,
-      showAuthorName: true,
     };
   },
   computed: {
-    computedSinger() {
+    computedTop() {
       //ret是返回值变量
       let ret = null;
-      const singer = this.singer;
-      if (singer) {
-        ret = singer;
+      const top = this.top;
+      if (top) {
+        ret = top;
       } else {
-        const catchSinger = storage.session.get(SINGER_KEY);
+        const catchSinger = storage.session.get(TOP_KEY);
         if (catchSinger && catchSinger.id == this.$route.params.id) {
           ret = catchSinger;
         }
@@ -54,31 +52,34 @@ export default {
       return ret;
     },
     title() {
-      const singer = this.computedSinger;
-      return singer.name;
+      const top = this.computedTop;
+      return top.name;
     },
     pic() {
-      const singer = this.computedSinger;
-      return singer.pic;
+      const top = this.computedTop;
+      return top.coverImgUrl;
     },
   },
   async created() {
-    if (!this.computedSinger) {
+    if (!this.computedTop) {
       const path = this.$route.matched[0].path;
       this.$router.push({
         path,
       });
       return;
     }
-    const { songs } = await getSingerSongs(this.computedSinger);
-    this.songs = await getMp3s(songs);
+
+    const {
+      playlist: { tracks },
+    } = await getTopDetail(this.computedTop);
+    this.songs = await getMp3s(tracks.slice(0, 50));
     this.loading = false;
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.singer-detail {
+.top-detail {
   position: fixed;
   z-index: 10;
   top: 0;

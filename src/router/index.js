@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-10-07 14:20:38
+ * @LastEditTime: 2021-10-09 16:15:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\router\index.js
@@ -13,7 +13,7 @@ import TopList from '@/views/top-list'
 import Search from '@/views/search'
 import SingerDetail from '@/views/SingerDetail'
 import Album from '@/views/album'
-
+import TopDetail from '@/views/top-detail'
 const routes = [
   {
     path: '/',
@@ -41,7 +41,13 @@ const routes = [
   },
   {
     path: '/top-list',
-    component: TopList
+    component: TopList,
+    children: [
+      {
+        path: ':id',
+        component: TopDetail
+      }
+    ]
   },
   {
     path: '/search',
