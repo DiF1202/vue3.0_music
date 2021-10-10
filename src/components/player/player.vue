@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-09 18:36:32
+ * @LastEditTime: 2021-10-10 16:00:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -17,7 +17,11 @@
     >
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
-          <img :src="currentSong?.al?.picUrl + '?param=300y300'" alt="" />
+          <img
+            v-if="currentSong?.al?.picUrl"
+            :src="currentSong?.al?.picUrl + '?param=300y300'"
+            alt=""
+          />
         </div>
         <div class="top">
           <div class="back" @click="goBack">
@@ -40,7 +44,7 @@
             <div ref="cdWrapperRef" class="cd-wrapper">
               <div class="cd" ref="cdRef">
                 <img
-                  v-show="currentSong?.al?.picUrl"
+                  v-if="currentSong?.al?.picUrl"
                   ref="cdImageRef"
                   class="image"
                   :class="cdCls"

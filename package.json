@@ -26,7 +26,8 @@
     "vue-router": "^4.0.0-0",
     "vue3-lazy": "^1.0.0-alpha.1",
     "vuex": "^4.0.0-0",
-    "xsrf": "^1.0.0"
+    "xsrf": "^1.0.0",
+    "throttle-debounce": "^3.0.1"
   },
   "devDependencies": {
     "@types/good-storage": "^1.1.0",

@@ -4,7 +4,7 @@
       <div class="cd-wrapper">
         <div ref="cdRef" class="cd">
           <img
-            v-show="currentSong?.al?.picUrl"
+            v-if="currentSong?.al?.picUrl"
             ref="cdImageRef"
             width="40"
             height="40"
