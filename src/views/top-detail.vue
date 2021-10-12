@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-07 18:52:45
- * @LastEditTime: 2021-10-09 16:58:07
+ * @LastEditTime: 2021-10-12 00:13:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\top-detail.vue
@@ -20,7 +20,7 @@
 
 <script>
 import { getTopDetail } from '@/service/top-list.js';
-import { getMp3s } from '@/service/song.js';
+import { getMp3s2 } from '@/service/song.js';
 import MusicList from '../components/music-list/music-list.vue';
 import storage from 'good-storage';
 import { TOP_KEY } from '@/assets/js/constant';
@@ -72,7 +72,7 @@ export default {
     const {
       playlist: { tracks },
     } = await getTopDetail(this.computedTop);
-    this.songs = await getMp3s(tracks.slice(0, 50));
+    this.songs = await getMp3s2(tracks);
     this.loading = false;
   },
 };

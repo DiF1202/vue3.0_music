@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-23 18:45:07
- * @LastEditTime: 2021-10-09 13:25:56
+ * @LastEditTime: 2021-10-12 12:05:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\song.js
@@ -28,7 +28,21 @@ export function getSongsDetail(ids) {
     return get('/song/detail', {
         ids: ids
     })
+}
 
+//根据id数组获取歌曲图片
+export function getSongsPic(songs) {
+    if (!songs?.length) {
+        return Promise.resolve(songs)
+    }
+    let Array_ids = songs.map((item) => {
+        return item.id;
+    });
+    Array_ids = Array_ids.join(',');
+
+    return get('/song/detail', {
+        ids: Array_ids
+    })
 }
 
 //获取mp3
@@ -49,6 +63,26 @@ export function getMp3s(singerSongs) {
             })
         })
     }))
+}
+
+export function getMp3s2(songs) {
+    if (!songs?.length) {
+        return Promise.resolve(songs)
+    }
+    return get('/song/url', {
+        id: songs.map((song) => {
+            return song.id
+        })
+    }).then((result) => {
+        let urlObject = {}
+        result.data.map((item) => {
+            urlObject[item.id] = item.url
+        })
+        return songs.map((song) => {
+            song.songurl = urlObject[song.id]
+            return song
+        })
+    })
 }
 
 //获取歌词

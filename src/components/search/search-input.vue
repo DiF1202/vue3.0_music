@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-10 16:30:53
- * @LastEditTime: 2021-10-10 22:31:01
+ * @LastEditTime: 2021-10-10 22:33:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\search\search-input.vue
@@ -9,7 +9,7 @@
 <template>
   <div class="search-input">
     <i class="icon-search"></i>
-    <input class="input-inner" v-model="query" />
+    <input class="input-inner" v-model="query" :placeholder="placeholder" />
     <i class="icon-dismiss" v-show="query" @click="clear"></i>
   </div>
 </template>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:56:17
- * @LastEditTime: 2021-10-07 01:37:26
+ * @LastEditTime: 2021-10-12 11:46:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\actions.js
@@ -89,6 +89,31 @@ export function clearSongList({ commit }) {
     commit('setPlayList', [])
     commit('setCurrentIndex', 0)
     commit('setPlayingState', false)
+}
+
+export function addSong({ commit, state }, song) {
+    const playlist = state.playList.slice()
+    const sequenceList = state.sequenceList.slice()
+    let currentIndex = state.currentIndex
+    const playIndex = findIndex(playlist, song)
+
+    if (playIndex > -1) {
+        currentIndex = playIndex
+    } else {
+        playlist.push(song)
+        currentIndex = playlist.length - 1
+    }
+
+    const sequenceIndex = findIndex(sequenceList, song)
+    if (sequenceIndex === -1) {
+        sequenceList.push(song)
+    }
+
+    commit('setSequenceList', sequenceList)
+    commit('setPlayList', playlist)
+    commit('setCurrentIndex', currentIndex)
+    commit('setPlayingState', true)
+    commit('setFullScreen', true)
 }
 
 function findIndex(list, song) {

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-23 00:38:27
- * @LastEditTime: 2021-10-09 12:38:43
+ * @LastEditTime: 2021-10-11 23:57:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\singer-detail.vue
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { getSingerSongs, getMp3s } from '@/service/song.js';
+import { getSingerSongs, getMp3s2 } from '@/service/song.js';
 import MusicList from '../components/music-list/music-list.vue';
 import storage from 'good-storage';
 import { SINGER_KEY } from '@/assets/js/constant';
@@ -71,7 +71,9 @@ export default {
       return;
     }
     const { songs } = await getSingerSongs(this.computedSinger);
-    this.songs = await getMp3s(songs);
+    console.log(songs);
+    this.songs = await getMp3s2(songs);
+    console.log(this.songs);
     this.loading = false;
   },
 };

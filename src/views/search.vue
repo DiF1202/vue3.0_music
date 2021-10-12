@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-10-10 22:28:51
+ * @LastEditTime: 2021-10-12 19:51:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -27,41 +27,108 @@
             </li>
           </ul>
         </div>
+        <div class="search-history" v-show="searchHistory?.length">
+          <h1 class="title">
+            <span class="text">搜索历史</span>
+            <span class="clear" @click="showConfirm">
+              <i class="icon-clear"></i>
+            </span>
+          </h1>
+          <confirm
+            ref="confirmRef"
+            text="是否清空所有搜索历史"
+            confirm-btn-text="清空"
+            @confirm="clearSearch"
+          >
+          </confirm>
+          <search-list
+            :searches="searchHistory"
+            @select="addQuery"
+            @delete="deleteSearch"
+          ></search-list>
+        </div>
       </div>
     </scroll>
+    <div class="search-result" v-show="query">
+      <suggest :query="query" @select-song="selectSong"></suggest>
+    </div>
   </div>
 </template>
 
 <script>
 import Scroll from '@/components/wrap-scroll';
+import Suggest from '@/components/search/suggest';
 import SearchInput from '@/components/search/search-input';
-import { ref, watch } from 'vue';
+import SearchList from '@/components/search/search-list';
+import Confirm from '@/components/base/confirm/confirm';
+import { ref, computed, watch, nextTick } from 'vue';
 import { getHotKeys } from '../service/search';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import useSearchHistory from '@/components/search/use-search-history';
+
 export default {
   name: 'search',
   components: {
     SearchInput,
     Scroll,
+    Suggest,
+    SearchList,
+    Confirm,
   },
   setup() {
     //data
     const query = ref('');
     const hotKeys = ref([]);
+    const searchHistory = computed(() => store.state.searchHistory);
+    const scrollRef = ref(null);
+    const confirmRef = ref(null);
+    //vuex
+    const store = useStore();
+    const router = useRouter();
+    //hook
+    const { saveSearch, deleteSearch, clearSearch } = useSearchHistory();
     //获取数据
     getHotKeys().then((data) => {
       hotKeys.value = data.result.hots;
     });
 
+    watch(query, async (newQuery) => {
+      if (!newQuery) {
+        await nextTick();
+        refreshScroll();
+      }
+    });
+
     //function
+    function refreshScroll() {
+      scrollRef.value.scroll.refresh();
+    }
+
     function addQuery(s) {
       query.value = s;
     }
 
+    function selectSong(song) {
+      saveSearch(query.value);
+      store.dispatch('addSong', song);
+    }
+    function showConfirm() {
+      confirmRef.value.show();
+    }
+
     return {
+      selectSong,
       query,
+      confirmRef,
       hotKeys,
+      scrollRef,
       //function
+      showConfirm,
       addQuery,
+      searchHistory,
+      deleteSearch,
+      clearSearch,
     };
   },
 };

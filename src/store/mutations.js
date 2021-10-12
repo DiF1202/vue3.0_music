@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:45:55
- * @LastEditTime: 2021-10-09 12:14:10
+ * @LastEditTime: 2021-10-12 15:17:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\mutations.js
@@ -44,18 +44,10 @@ const mutations = {
             return item
         })
     },
-    // //添加图片
-    // addSongImg(state, song_pic) {
-    //     if (state.playList[state.currentIndex] || song_pic) {
-    //         state.playList[state.currentIndex].song_pic = song_pic
-    //     }
-    // },
-    //添加mp3
-    addSongMp3(state, songurl) {
-        if (state.playList[state.currentIndex] || songurl) {
-            state.playList[state.currentIndex].songurl = songurl
-        }
-    },
+    //搜索
+    setSearchHistory(state, searchs) {
+        state.searchHistory = searchs
+    }
 }
 
 export default mutations
