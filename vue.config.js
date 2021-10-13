@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:53:32
- * @LastEditTime: 2021-09-16 19:14:36
+ * @LastEditTime: 2021-10-13 15:48:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\vue.config.js
@@ -21,5 +21,11 @@ module.exports = {
     //开启代理服务器
     devServer: {
         proxy: 'http://localhost:3000'
-    }
+    },
+    configureWebpack: (config) => {
+        if (process.env.npm_config_report) {
+            const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+            config.plugins.push(new BundleAnalyzerPlugin())
+        }
+    },
 }
