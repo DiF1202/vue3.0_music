@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-07 18:52:45
- * @LastEditTime: 2021-10-12 00:13:19
+ * @LastEditTime: 2021-10-13 16:50:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\top-detail.vue
@@ -72,7 +72,7 @@ export default {
     const {
       playlist: { tracks },
     } = await getTopDetail(this.computedTop);
-    this.songs = await getMp3s2(tracks);
+    this.songs = await getMp3s2(tracks.slice(0, 100));
     this.loading = false;
   },
 };

@@ -2,7 +2,7 @@
   <div
     ref="rootRef"
     class="suggest"
-    v-loading:[loadingText]="!songs?.length"
+    v-loading:[loadingText]="loading"
     v-no-result:[noResultText]="noResult"
   >
     <ul class="suggest-list">
@@ -53,7 +53,7 @@ export default {
     const offset = ref(0);
 
     const loading = computed(() => {
-      return !songs?.value?.length;
+      return !songs?.value?.length && hasMore?.value;
     });
 
     const noResult = computed(() => {

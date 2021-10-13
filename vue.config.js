@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:53:32
- * @LastEditTime: 2021-10-13 15:48:51
+ * @LastEditTime: 2021-10-13 20:10:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\vue.config.js
@@ -28,4 +28,6 @@ module.exports = {
             config.plugins.push(new BundleAnalyzerPlugin())
         }
     },
+    productionSourceMap: false,
+    publicPath: process.env.NODE_ENV === 'production' ? '/music-next/' : '/'
 }
