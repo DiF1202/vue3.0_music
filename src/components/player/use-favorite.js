@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 14:11:15
- * @LastEditTime: 2021-10-02 16:33:31
+ * @LastEditTime: 2021-10-13 02:40:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\use-favorite.js
@@ -43,7 +43,7 @@ export default function useFavorite() {
     //判断这首歌是不是喜欢的歌曲返回值是布尔值
     function isFavorite(song) {
         return favoriteList.value.findIndex((item) => {
-            return item.id === song.id
+            return item.id == song.id
         }) > -1
     }
 

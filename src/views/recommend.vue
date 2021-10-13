@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-10-09 13:41:30
+ * @LastEditTime: 2021-10-13 03:04:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -79,7 +79,7 @@ export default {
     const { banners } = await getRecommend();
     this.sliders = banners;
     //获取歌单数据
-    const { playlists } = await getPlayList(35);
+    const { playlists } = await getPlayList(100);
     this.playlists = playlists;
   },
   methods: {

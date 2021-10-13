@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-16 13:45:27
- * @LastEditTime: 2021-10-09 13:39:35
+ * @LastEditTime: 2021-10-13 03:16:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\service\recommend.js
@@ -17,7 +17,6 @@ export function getRecommend() {
 export function getPlayList(params) {
     return get('/top/playlist/highquality', {
         limit: params,
-        cat: '华语'
     })
 }
 

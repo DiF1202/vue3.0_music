@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-10-07 01:53:26
+ * @LastEditTime: 2021-10-13 02:52:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\App.vue
@@ -9,7 +9,18 @@
 <template>
   <m-header></m-header>
   <tab></tab>
-  <router-view :style="viewStyle"></router-view>
+  <router-view :style="viewStyle" v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
+  <router-view :style="viewStyle" name="user" v-slot="{ Component }">
+    <transition appear name="slide">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </transition>
+  </router-view>
   <player></player>
 </template>
 

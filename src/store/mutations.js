@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-29 13:45:55
- * @LastEditTime: 2021-10-12 15:17:45
+ * @LastEditTime: 2021-10-13 01:05:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\store\mutations.js
@@ -47,6 +47,10 @@ const mutations = {
     //搜索
     setSearchHistory(state, searchs) {
         state.searchHistory = searchs
+    },
+    //最近播放
+    setPlayHistory(state, songs) {
+        state.playHistory = songs
     }
 }
 

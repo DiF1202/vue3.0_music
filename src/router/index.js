@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-10-09 16:15:35
+ * @LastEditTime: 2021-10-13 02:53:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\router\index.js
@@ -14,6 +14,7 @@ import Search from '@/views/search'
 import SingerDetail from '@/views/SingerDetail'
 import Album from '@/views/album'
 import TopDetail from '@/views/top-detail'
+import UserCenter from '@/views/user-center'
 const routes = [
   {
     path: '/',
@@ -52,6 +53,12 @@ const routes = [
   {
     path: '/search',
     component: Search
+  },
+  {
+    path: '/user',
+    components: {
+      user: UserCenter
+    }
   }
 ]
 

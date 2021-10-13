@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-15 20:25:53
- * @LastEditTime: 2021-09-16 21:24:34
+ * @LastEditTime: 2021-10-13 01:40:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\header\header.vue
@@ -10,12 +10,9 @@
   <div class="header">
     <span class="logo"></span>
     <h1 class="text">Di迪的网抑云</h1>
-    <!-- <router-link class="mine" to="/user">
+    <router-link class="mine" to="/user">
       <i class="icon-mine"></i>
-    </router-link> -->
-    <div class="mine">
-      <i class="icon-mine"></i>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -39,7 +36,6 @@ export default {
     height: 32px;
     margin-right: 9px;
     @include bg-image('logo');
-    background-color: yellow;
     background-size: 30px 32px;
   }
   .text {

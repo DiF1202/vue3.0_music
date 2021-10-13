@@ -97,7 +97,6 @@ export default {
       }
       songs.value = await getSongsPic(result.songs);
       songs.value = songs.value.songs;
-      console.log(songs);
       songs.value = await getMp3s2(songs.value);
       hasMore.value = result.hasMore;
       await nextTick();

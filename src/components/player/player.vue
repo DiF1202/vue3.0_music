@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-10 16:00:26
+ * @LastEditTime: 2021-10-13 00:54:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -143,6 +143,7 @@ import useCd from './use-cd';
 import useLyric from './use-lyric';
 import Scroll from '@/components/base/scroll/scroll';
 import useMiddleInteractive from './use-middle-interactive';
+import usePlayHistory from './use-play-history';
 import MiniPlayer from './mini-player.vue';
 import useAnimation from './use-animation';
 
@@ -197,6 +198,7 @@ export default {
     } = useMiddleInteractive();
     const { cdWrapperRef, enter, afterEnter, leave, afterLeave } =
       useAnimation();
+    const { savePlay } = usePlayHistory();
     //computed
     //根据不同播放状态求得不同icon
     const playIcon = computed(() => {
@@ -303,6 +305,7 @@ export default {
       songReady.value = true;
       playLyric();
       duration.value = audioRef.value.duration;
+      savePlay(currentSong.value);
     }
     //如果出错的情况，你要把songready设置为true 才能进行下一次切换
     function error() {

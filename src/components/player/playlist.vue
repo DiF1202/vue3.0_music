@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-10-06 14:33:23
- * @LastEditTime: 2021-10-07 01:35:39
+ * @LastEditTime: 2021-10-13 00:36:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\playlist.vue
@@ -43,6 +43,12 @@
               </li>
             </transition-group>
           </scroll>
+          <div class="list-add">
+            <div class="add" @click="showAddSong">
+              <i class="icon-add"></i>
+              <span class="text">添加歌曲到队列</span>
+            </div>
+          </div>
           <div class="list-footer" @click="hide">
             <span>关闭</span>
           </div>
@@ -53,6 +59,7 @@
           text="是否清空播放列表?"
           confirmBtnText="清空"
         ></confirm>
+        <add-song ref="addSongRef"></add-song>
       </div>
     </transition>
   </teleport>
@@ -65,12 +72,14 @@ import { useStore } from 'vuex';
 import useMode from './use-mode';
 import useFavorite from './use-favorite';
 import Confirm from '../base/confirm/confirm.vue';
+import AddSong from '../add-song/add-song.vue';
 
 export default {
   name: 'playlist',
   components: {
     Scroll,
     Confirm,
+    AddSong,
   },
   setup() {
     //data
@@ -79,6 +88,7 @@ export default {
     const scrollRef = ref(null);
     const listRef = ref(null);
     const confirmRef = ref(null);
+    const addSongRef = ref(null);
     //vuex
     const store = useStore();
     const playlist = computed(() => store.state.playList);
@@ -170,8 +180,13 @@ export default {
       hide();
     }
 
+    function showAddSong() {
+      addSongRef.value.show();
+    }
+
     return {
       //data
+      addSongRef,
       visible,
       scrollRef,
       listRef,
@@ -186,6 +201,7 @@ export default {
       removeSong,
       showConfirm,
       confirmClear,
+      showAddSong,
       //vuex
       playlist,
       sequenceList,

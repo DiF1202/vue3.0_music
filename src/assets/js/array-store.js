@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-10-02 15:08:05
- * @LastEditTime: 2021-10-12 19:22:11
+ * @LastEditTime: 2021-10-13 01:18:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\assets\js\array-store.js
@@ -11,13 +11,14 @@ import storage from 'good-storage'
 //插入数组 
 function inertArray(arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
-  if (index > -1) {
+  if (index === 0) {
     return
   }
+  if (index > 0) {
+    arr.splice(index, 1)
+  }
   arr.unshift(val)
-  //比如你超过最大值
   if (maxLen && arr.length > maxLen) {
-    //arr.pop删除数组的最后一个元素
     arr.pop()
   }
 }
