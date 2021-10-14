@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-09-15 19:16:13
- * @LastEditTime: 2021-10-13 02:47:32
+ * @LastEditTime: 2021-10-14 19:29:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\main.js
@@ -20,7 +20,7 @@ import { load, saveAll } from '@/assets/js/array-store'
 import { FAVORITE_KEY, PLAY_KEY } from '@/assets/js/constant'
 import { getMp3s2 } from '@/service/song'
 
-axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.baseURL = 'http://101.34.216.21:3000/'
 
 const favoriteSongs = load(FAVORITE_KEY)
 if (favoriteSongs.length > 0) {

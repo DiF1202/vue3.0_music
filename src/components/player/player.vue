@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-29 15:59:43
- * @LastEditTime: 2021-10-13 00:54:53
+ * @LastEditTime: 2021-10-14 17:43:48
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\components\player\player.vue
@@ -56,23 +56,25 @@
               <div class="playing-lyric">{{ playingLyric }}</div>
             </div>
           </div>
-          <scroll class="middle-r" ref="lyricScrollRef" :style="middleRStyle">
-            <div class="lyric-wrapper">
-              <div v-if="currentLyric" ref="lyricListRef">
-                <p
-                  class="text"
-                  :class="{ current: currentLineNum === index }"
-                  v-for="(line, index) in currentLyric.lines"
-                  :key="line.num"
-                >
-                  {{ line.txt }}
-                </p>
+          <div class="middle-r" :style="middleRStyle">
+            <scroll ref="lyricScrollRef">
+              <div class="lyric-wrapper">
+                <div v-if="currentLyric" ref="lyricListRef">
+                  <p
+                    class="text"
+                    :class="{ current: currentLineNum === index }"
+                    v-for="(line, index) in currentLyric.lines"
+                    :key="line.num"
+                  >
+                    {{ line.txt }}
+                  </p>
+                </div>
+                <div class="pure-music" v-show="pureMusicLyric">
+                  <p>{{ pureMusicLyric }}</p>
+                </div>
               </div>
-              <div class="pure-music" v-show="pureMusicLyric">
-                <p>{{ pureMusicLyric }}</p>
-              </div>
-            </div>
-          </scroll>
+            </scroll>
+          </div>
         </div>
         <div class="bottom">
           <!-- 两个页面切换的圆点 -->

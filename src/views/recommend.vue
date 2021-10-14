@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-16 01:37:26
- * @LastEditTime: 2021-10-13 15:44:34
+ * @LastEditTime: 2021-10-14 16:40:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue3.0_music\src\views\recommend.vue
@@ -25,7 +25,11 @@
               @click="selectItem(item)"
             >
               <div class="icon">
-                <img width="60" height="60" v-lazy="item.coverImgUrl" />
+                <img
+                  width="60"
+                  height="60"
+                  v-lazy="item.coverImgUrl + '?param=100y100'"
+                />
               </div>
               <div class="text">
                 <h2 class="name">
